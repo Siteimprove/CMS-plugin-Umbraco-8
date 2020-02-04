@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+  <info>
+    <package>
+      <name>Siteimprove</name>
+      <version>0.0.0</version>
+      <iconUrl />
+      <license url="https://siteimprove.com/legal/cms-plugin-terms">MIT</license>
+      <url>http://siteimprove.com</url>
+      <requirements>
+        <major>1</major>
+        <minor>0</minor>
+        <patch>0</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Siteimprove A/S</name>
+      <website>http://siteimprove.com</website>
+    </author>
+    <readme><![CDATA[]]></readme>
+  </info>
+  <Actions>
+    <Action runat="install" undo="true" alias="addDashboardSection" dashboardAlias="SiteImprove.Dashboard">
+      <section alias="SiteImprove.Dashboard">
+        <areas>
+          <area>developer</area>
+        </areas>
+        <tab caption="Siteimprove">
+          <access>
+            <grant>admin</grant>
+          </access>
+          <control showOnce="false" addPanel="true" panelCaption="">/App_Plugins/SiteImprove/views/dashboard.html</control>
+        </tab>
+      </section>
+    </Action>
+  </Actions>
+  <DocumentTypes />
+  <Templates />
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes>
+    <DataType Name="Textstring" Id="Umbraco.Textbox" Definition="0cc0eba1-9960-42c9-bf9b-60e150b429ae" DatabaseType="Nvarchar">
+      <PreValues />
+    </DataType>
+  </DataTypes>
+
+  <files />
+</umbPackage>
