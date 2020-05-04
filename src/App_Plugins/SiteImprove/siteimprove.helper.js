@@ -95,34 +95,6 @@ siteimprove.helper = {
                     });
             }
 
-            // Wait one js tick to hook on the publish button. 
-            // The controller does not exist until after the route change
-            setTimeout(function () {
-                var uEditController = angular.element($("body div [ng-controller='Umbraco.Editors.Content.EditController']"));
-                if (uEditController.length < 1) {
-                    return;
-                }
-
-                var $scope = uEditController.scope();
-
-                // Hook on save and publish event
-                $scope.$on('formSubmitted', function (form) {
-
-                    // Page has been submitted, but no id on the page. They just created a new page
-                    if (form.targetScope.content.id == 0) {
-                        siteimprove.helper.isCreatingPage = true;
-                        return;
-                    }
-
-                    if (siteimprove.recrawlIds.indexOf(form.targetScope.content.id.toString()) > -1) {
-                        siteimprove.helper.handleFetchPushUrl('recrawl', form.targetScope.content.id, true);
-                    } else {
-                        siteimprove.helper.handleFetchPushUrl('recheck', form.targetScope.content.id, true);
-                    }
-                });
-
-            }, 0);
-
             if (!next.params.hasOwnProperty('create') && ( current === undefined || !current.params.hasOwnProperty('create') )&& next.params.id) {
                 siteimprove.helper.handleFetchPushUrl('input', next.params.id);
             }

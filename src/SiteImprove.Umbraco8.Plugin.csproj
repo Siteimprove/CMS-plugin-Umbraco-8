@@ -186,5 +186,17 @@
        Other similar extension points exist, see Microsoft.Common.targets. 
   <Target Name="BeforeBuild">
   </Target>-->
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <CopyFiles Include="$(MSBuildProjectDirectory)\App_Plugins\**\*.*" />
+      <CopyPdb Include="$(MSBuildProjectDirectory)\bin\Debug\SiteImprove.Umbraco8.Plugin.pdb" />
+      <CopyDllConfig Include="$(MSBuildProjectDirectory)\bin\Debug\SiteImprove.Umbraco8.Plugin.dll.config" />
+      <CopyDllDebug Include="$(MSBuildProjectDirectory)\bin\Debug\SiteImprove.Umbraco8.Plugin.dll" />
+    </ItemGroup>
 
+    <Copy SourceFiles="@(CopyFiles)" DestinationFolder="..\..\Umbraco8\Umbraco8\App_Plugins\%(RecursiveDir)" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" /> 
+    <Copy SourceFiles="@(CopyDllDebug)" DestinationFolder="..\..\Umbraco8\Umbraco8\bin\" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+    <Copy SourceFiles="@(CopyPdb)" DestinationFolder="..\..\Umbraco8\Umbraco8\bin\" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+    <Copy SourceFiles="@(CopyDllConfig)" DestinationFolder="..\..\Umbraco8\Umbraco8\bin\" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+  </Target>
 </Project>

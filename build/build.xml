@@ -23,7 +23,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <VersionMajor>1</VersionMajor>
+    <VersionMajor>2</VersionMajor>
     <VersionMinor>0</VersionMinor>
     <VersionPatch>0</VersionPatch>
     <VersionSuffix></VersionSuffix>
