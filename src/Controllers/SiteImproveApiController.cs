@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using SiteImprove.Umbraco8.Plugin.Services;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.WebApi;
 
@@ -84,7 +85,7 @@ namespace SiteImprove.Umbraco8.Plugin.Controllers
             {
                 success = node != null,
                 status = node != null ? "OK" : "No published page with that id",
-                url = node != null ? node.Url : ""
+                url = node != null ? node.Url(mode: UrlMode.Absolute) : ""
             };
 
             return Request.CreateResponse(HttpStatusCode.OK, model);
