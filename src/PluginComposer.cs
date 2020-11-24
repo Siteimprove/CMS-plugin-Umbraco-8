@@ -11,6 +11,7 @@ namespace SiteImprove.Umbraco8.Plugin
         public void Compose(Composition composition)
         {
             composition.RegisterUnique<SiteImproveSettingsService>();
+            composition.RegisterUnique<SiteImproveUrlMapService>();
             composition.Components().Append<PluginComponent>();
         }
     }

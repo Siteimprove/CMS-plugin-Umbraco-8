@@ -1,7 +1,13 @@
 ﻿var siteimprove = {
     log: true,
     recrawlIds: [],
-    token: ''
+    token: '',
+    currentPageId: 0,
+    reloadData: function () { },
+    reloadPage:  function () {
+        location.reload();
+    }
+
 };
 
 siteimprove.helper = {
@@ -84,7 +90,9 @@ siteimprove.helper = {
      * Handles the RouteChangeSuccess event. Will take care of pushing to _si and listen on publish event for the new edit scope.
      */
     on$routeChangeSuccess: function (e, next, current) {
-
+        if (next.params.id) {
+            siteimprove.currentPageId = next.params.id;
+        }
         // Only listen when user works on the content tree
         if (next.params.tree === 'content') {
 

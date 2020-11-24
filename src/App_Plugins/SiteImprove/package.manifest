@@ -9,10 +9,10 @@
     }
   ],
   "javascript": [
-    "~/App_Plugins/SiteImprove/siteimprove.helper.js",
-    "~/App_Plugins/SiteImprove/siteimprove.main.js",
-    "~/App_Plugins/SiteImprove/siteimprove.controller.js",
-    "~/App_Plugins/SiteImprove/dashboard.js",
-    "https://cdn.siteimprove.net/cms/overlay.js"
+    "~/App_Plugins/SiteImprove/siteimprove.helper.js?v=2",
+    "~/App_Plugins/SiteImprove/siteimprove.main.js?v=2",
+    "~/App_Plugins/SiteImprove/siteimprove.controller.js?v=2",
+    "~/App_Plugins/SiteImprove/dashboard.js?v=2",
+    "https://cdn.siteimprove.net/cms/overlay.js?v=2"
   ]
 }

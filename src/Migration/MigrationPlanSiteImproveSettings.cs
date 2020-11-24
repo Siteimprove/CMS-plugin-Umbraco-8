@@ -6,7 +6,9 @@ namespace SiteImprove.Umbraco8.Plugin.Migration
     {
         public MigrationPlanSiteImproveSettings() : base("SiteImprovePlugin")
         {
-            From(string.Empty).To<MigrationSiteImproveSettings>("MigrationSiteImproveSettings");
+            From(string.Empty)
+                .To<MigrationSiteImproveSettings>("MigrationSiteImproveSettings")
+                .To<MigrationSiteImproveUrlMap>("MigrationSiteImproveUrlMap");
         }
     }
 }

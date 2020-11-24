@@ -48,10 +48,9 @@ app.config(['$provide', function ($provide) {
 					{
 						InitializeSiteimprove(locals.$scope);
 					}
-					if(constructor == "Umbraco.Editors.Content.EditController")
-					{
-						HookPublishButton(locals.$scope)
-					}
+					if(constructor == "Umbraco.Editors.Content.EditController") {
+                        HookPublishButton(locals.$scope);
+                    }
                 }
                 return $delegate.apply(this, [].slice.call(arguments));
             }

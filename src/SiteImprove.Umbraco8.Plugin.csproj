@@ -250,6 +250,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Migration\MigrationPlanSiteImproveSettings.cs" />
     <Compile Include="Migration\MigrationSiteImproveSettings.cs" />
+    <Compile Include="Migration\MigrationSiteImproveUrlMap.cs" />
+    <Compile Include="Models\SiteImproveUrlMap.cs" />
     <Compile Include="PluginComposer.cs" />
     <Compile Include="PluginComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Controllers\SiteImproveApiController.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Services\SiteImproveSettingsService.cs" />
+    <Compile Include="Services\SiteImproveUrlMapService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
