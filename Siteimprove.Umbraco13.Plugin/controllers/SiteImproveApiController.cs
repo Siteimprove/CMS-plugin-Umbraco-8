@@ -1,51 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
+﻿using Microsoft.AspNetCore.Mvc;
+using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Web;
+using Umbraco.Cms.Core;
+using Umbraco.Cms.Web.BackOffice.Controllers;
+using Umbraco.Extensions;
+using Newtonsoft.Json;
+using Umbraco.Cms.Core.Configuration;
 using SiteImprove.Umbraco8.Plugin.Models;
 using SiteImprove.Umbraco8.Plugin.Services;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
-using Umbraco.Web.WebApi;
 
-namespace Siteimprove.Umbraco13.Plugin.controllers
+namespace Siteimprove.Umbraco13.Plugin.Controllers
 {
     public class SiteImproveApiController : UmbracoAuthorizedApiController
     {
-        //private SiteImproveSettingsHelper SettingsHelper { get; set; }
-        private readonly IUmbracoContextFactory _context;
-        private readonly SiteImproveSettingsService _siteImproveSettingsService;
-        private readonly SiteImproveUrlMapService _siteImproveUrlMapService;
+        private readonly ISiteImproveUrlMapService _siteImproveUrlMapService;
+        private readonly IUmbracoVersion _umbracoVersion;
 
-        public SiteImproveApiController(IUmbracoContextFactory context,
-            SiteImproveSettingsService service,
-            SiteImproveUrlMapService siteImproveUrlMapService)
+        public SiteImproveApiController(ISiteImproveUrlMapService siteImproveUrlMapService,
+            IUmbracoVersion umbracoVersion)
         {
-            _context = context;
-            _siteImproveSettingsService = service;
             _siteImproveUrlMapService = siteImproveUrlMapService;
+            _umbracoVersion = umbracoVersion;
         }
 
         [HttpGet]
-        public async Task<HttpResponseMessage> GetSettings(int pageId)
+        public async Task<ActionResult> GetSettings(int pageId)
         {
             var urlMap = await _siteImproveUrlMapService.GetByPageId(pageId);
             var model = new
             {
-                token = await _siteImproveSettingsService.GetToken(),
-                crawlingIds = GetCrawlIds(),
                 currentUrlPart = urlMap?.CurrentUrlPart ?? string.Empty,
                 newUrlPart = urlMap?.NewUrlPart ?? string.Empty
             };
+            return Content(JsonConvert.SerializeObject(model), "application/json");
+        }
 
-            return Request.CreateResponse(HttpStatusCode.OK, model);
+        [HttpGet]
+        public ActionResult GetUmbracoVersion()
+        {
+            return Content(_umbracoVersion.Version.ToString());
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> SaveUrlMap([FromBody] SaveUrlMapParams saveUrlMapParams)
+        public async Task<ActionResult> SaveUrlMap([FromBody] SaveUrlMapParams saveUrlMapParams)
         {
             try
             {
@@ -72,7 +69,7 @@ namespace Siteimprove.Umbraco13.Plugin.controllers
                     success = true,
                     message = "Saved"
                 };
-                return Request.CreateResponse(HttpStatusCode.OK, model);
+                return Content(JsonConvert.SerializeObject(model), "application/json");
             }
             catch (Exception ex)
             {
@@ -81,7 +78,7 @@ namespace Siteimprove.Umbraco13.Plugin.controllers
                     success = false,
                     message = ex.Message
                 };
-                return Request.CreateResponse(HttpStatusCode.OK, model);
+                return Content(JsonConvert.SerializeObject(model), "application/json");
             }
         }
 
@@ -92,78 +89,18 @@ namespace Siteimprove.Umbraco13.Plugin.controllers
             public string NewUrlPart { get; set; }
         }
 
-
-        /// <summary>
-        /// Get node id's that will execute the Siteimprove recrawling method
-        /// </summary>
-        /// <returns></returns>
-        public string GetCrawlIds()
-        {
-            var publishedRootPages = Umbraco.ContentAtRoot().ToList();
-            return publishedRootPages.Any() ? publishedRootPages.First().Id.ToString() : null;
-        }
-
-
         [HttpGet]
-        public async Task<HttpResponseMessage> GetToken()
+        public async Task<ActionResult> GetPageUrl(int pageId)
         {
-            return Request.CreateResponse(
-                HttpStatusCode.OK,
-                await _siteImproveSettingsService.GetToken());
-        }
-
-        [HttpGet]
-        public async Task<HttpResponseMessage> RequestNewToken()
-        {
-            return Request.CreateResponse(
-                HttpStatusCode.OK,
-                await _siteImproveSettingsService.GetNewToken());
-        }
-
-        [HttpGet]
-        public HttpResponseMessage GetCrawlingIds()
-        {
-            return Request.CreateResponse(
-                HttpStatusCode.OK,
-                GetCrawlIds());
-        }
-
-        //[HttpPost]
-        //public HttpResponseMessage SetCrawlingIds([FromUri] string ids)
-        //{
-        //    SetCrawlIds(ids);
-        //    return Request.CreateResponse(HttpStatusCode.OK);
-        //}
-
-        [HttpGet]
-        public async Task<HttpResponseMessage> GetPageUrl(int pageId)
-        {
-            var node = Umbraco.Content(pageId);
-            var originalUrl = node != null ? node.Url(mode: UrlMode.Absolute) : "";
-            var urlMaps = await _siteImproveUrlMapService.GetAll();
-            var currentMapping = GetMapping(pageId, urlMaps);
-            var url = currentMapping == default
-                ? originalUrl
-                : originalUrl.Replace(currentMapping.CurrentUrlPart, currentMapping.NewUrlPart);
-
+            var url = await _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
+            var urlWasFound = !string.IsNullOrEmpty(url);
             var model = new
             {
-                success = node != null,
-                status = node != null ? "OK" : "No published page with that id",
+                success = urlWasFound,
+                status = urlWasFound ? "OK" : "No published page with that id",
                 url
             };
-
-            return Request.CreateResponse(HttpStatusCode.OK, model);
-        }
-
-        private SiteImproveUrlMap GetMapping(int pageId, List<SiteImproveUrlMap> maps)
-        {
-            if (maps.Any(m => m.PageId == pageId && !string.IsNullOrWhiteSpace(m.CurrentUrlPart)))
-            {
-                return maps.First(m => m.PageId == pageId);
-            }
-            var node = Umbraco.Content(pageId);
-            return node.Parent != null ? GetMapping(node.Parent.Id, maps) : default;
-        }
+            return Content(JsonConvert.SerializeObject(model), "application/json");
+        }        
     }
 }
