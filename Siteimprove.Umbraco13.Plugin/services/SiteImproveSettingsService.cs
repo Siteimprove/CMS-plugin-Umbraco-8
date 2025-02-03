@@ -1,20 +1,18 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using SiteImprove.Umbraco8.Plugin.Models;
-using Umbraco.Core.Persistence;
-using Umbraco.Core.Scoping;
+﻿using SiteImprove.Umbraco8.Plugin.Models;
+using Microsoft.Extensions.Logging;
+using Umbraco.Cms.Core.Configuration;
+using Umbraco.Cms.Infrastructure.Scoping;
+using Umbraco.Extensions;
 
 namespace SiteImprove.Umbraco8.Plugin.Services
 {
-    public class SiteImproveSettingsService
+    public class SiteImproveSettingsService : ISiteImproveSettingsService
     {
         private readonly IScopeProvider _scopeProvider;
 
         public SiteImproveSettingsService(IScopeProvider scopeProvider)
         {
-            this._scopeProvider = scopeProvider;
+            _scopeProvider = scopeProvider;
         }
 
         public SiteImproveSettingsModel SelectTopRow()
@@ -23,17 +21,15 @@ namespace SiteImprove.Umbraco8.Plugin.Services
             {
                 using (var scope = _scopeProvider.CreateScope(autoComplete: true))
                 {
-                    var sql = scope.SqlContext.Sql().SelectTop(1).From<SiteImproveSettingsModel>();
-                    var selectResult = scope.Database.ExecuteScalar<SiteImproveSettingsModel>(sql);
-                    return selectResult;
+                    var sql = scope.Database.SqlContext.Sql().Select<SiteImproveSettingsModel>().From<SiteImproveSettingsModel>().SelectTop(1);
+                    var resultList = scope.Database.Fetch<SiteImproveSettingsModel>(sql);
+                    return resultList.FirstOrDefault();
                 }
             }
-            catch (Exception e)
-            {
-
+            catch (Exception ex)
+            {                
                 return null;
             }
- 
         }
 
         public void Insert(SiteImproveSettingsModel row)
@@ -51,66 +47,5 @@ namespace SiteImprove.Umbraco8.Plugin.Services
                 var sql = scope.Database.Update(row);
             }
         }
-
-        /// <summary>
-        /// Returns the token that exist in the first row
-        /// </summary>
-        /// <param></param>
-        /// <returns></returns>
-        public async Task<string> GetToken()
-        {
-            var result = SelectTopRow();
-            if (result == null)
-            {
-                // Token did not exist in database, fetch from SiteImprove
-                string token = await RequestTokenAsync();
-
-                var row = new SiteImproveSettingsModel { Token = token };
-                Insert(row);
-
-                return token;
-            }
-
-            return result.Token;
-        }
-
-        /// <summary>
-        /// Updates the token in the first row, if row not created => create it
-        /// </summary>
-        /// <param></param>
-        /// <returns></returns>
-        public async Task<string> GetNewToken()
-        {
-            var row = SelectTopRow();
-            if (row == null)
-            {
-                return await GetToken();
-            }
-
-            row.Token = await RequestTokenAsync();
-            Update(row);
-
-            return row.Token;
-        }
-
-        private async Task<string> RequestTokenAsync()
-        {
-            using (var client = new HttpClient())
-            {
-                string response = await client.GetStringAsync(Constants.SiteImproveTokenUrl);
-                return JObject.Parse(response).GetValue("token").ToString();
-            }
-        }
-
-        public string RequestToken()
-        {
-            using (var client = new HttpClient())
-            {
-                string response = client.GetStringAsync(Constants.SiteImproveTokenUrl).Result;
-                return JObject.Parse(response).GetValue("token").ToString();
-            }
-        }
-
-
     }
 }
