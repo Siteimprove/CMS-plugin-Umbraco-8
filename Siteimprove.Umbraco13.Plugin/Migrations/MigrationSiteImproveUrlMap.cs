@@ -1,24 +1,31 @@
 ﻿using SiteImprove.Umbraco8.Plugin.Models;
-using SiteImprove.Umbraco8.Plugin.Services;
-using Umbraco.Core.Migrations;
+using Umbraco.Cms.Core.Migrations;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Cms.Infrastructure.Migrations;
+using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
+using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace SiteImprove.Umbraco8.Plugin.Migration
 {
-    public class MigrationSiteImproveUrlMap : MigrationBase
+    public class MigrationSiteimproveUrlMap : MigrationBase
     {
-        private readonly SiteImproveUrlMapService _siteImproveUrlMapService;
+        public MigrationSiteimproveUrlMap(IMigrationContext context) : base(context) {}
 
-        public MigrationSiteImproveUrlMap(IMigrationContext context, SiteImproveUrlMapService service) : base(context)
-        {
-            _siteImproveUrlMapService = service;
-        }
-
-        public override void Migrate()
+        protected override void Migrate()
         {
             if (!TableExists(Constants.SiteImproveUrlMapDbTable))
             {
                 Create.Table<SiteImproveUrlMap>(false).Do();
             }
+        }
+
+        public static void ExecuteMigrationPlan(IMigrationPlanExecutor migrationPlanExecutor, IScopeProvider scopeProvider, IKeyValueService keyValueService)
+        {
+            var plan = new MigrationPlan("MigrationSiteimproveUrlMap");
+            plan.From(string.Empty)
+                .To<MigrationSiteimproveUrlMap>("MigrationSiteimproveUrlMap");
+            var upgrader = new Upgrader(plan);
+            upgrader.Execute(migrationPlanExecutor, scopeProvider, keyValueService);
         }
     }
 }

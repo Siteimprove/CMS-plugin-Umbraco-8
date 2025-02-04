@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SiteImprove.Umbraco8.Plugin.Models;
 
-namespace Siteimprove.Services
+namespace SiteImprove.Umbraco8.Plugin.Services
 {
     public interface ISiteImproveUrlMapService
     {

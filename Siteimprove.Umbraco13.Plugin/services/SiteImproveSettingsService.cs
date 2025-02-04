@@ -6,11 +6,11 @@ using Umbraco.Extensions;
 
 namespace SiteImprove.Umbraco8.Plugin.Services
 {
-    public class SiteImproveSettingsService : ISiteImproveSettingsService
+    public class SiteimproveSettingsService : ISiteimproveSettingsService
     {
         private readonly IScopeProvider _scopeProvider;
 
-        public SiteImproveSettingsService(IScopeProvider scopeProvider)
+        public SiteimproveSettingsService(IScopeProvider scopeProvider)
         {
             _scopeProvider = scopeProvider;
         }

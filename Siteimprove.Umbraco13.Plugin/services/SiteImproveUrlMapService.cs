@@ -12,12 +12,12 @@ using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace SiteImprove.Umbraco8.Plugin.Services
 {
-    public class SiteImproveUrlMapService : ISiteImproveUrlMapService
+    public class SiteimproveUrlMapService : ISiteImproveUrlMapService
     {
         private readonly IScopeProvider _scopeProvider;
         private readonly IUmbracoContextFactory _ctxFactory;
 
-        public SiteImproveUrlMapService(IScopeProvider scopeProvider,
+        public SiteimproveUrlMapService(IScopeProvider scopeProvider,
             IUmbracoContextFactory ctxFactory)
         {
             this._scopeProvider = scopeProvider;
