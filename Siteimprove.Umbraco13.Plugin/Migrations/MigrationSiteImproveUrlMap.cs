@@ -1,11 +1,11 @@
-﻿using SiteImprove.Umbraco8.Plugin.Models;
+﻿using SiteImprove.Umbraco13.Plugin.Models;
 using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Scoping;
 
-namespace SiteImprove.Umbraco8.Plugin.Migration
+namespace SiteImprove.Umbraco13.Plugin.Migration
 {
     public class MigrationSiteimproveUrlMap : MigrationBase
     {

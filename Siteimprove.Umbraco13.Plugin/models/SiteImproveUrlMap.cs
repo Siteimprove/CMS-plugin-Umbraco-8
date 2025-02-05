@@ -1,7 +1,7 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace SiteImprove.Umbraco8.Plugin.Models
+namespace SiteImprove.Umbraco13.Plugin.Models
 {
     [TableName(Constants.SiteImproveUrlMapDbTable)]
     [PrimaryKey("id", AutoIncrement = true)]

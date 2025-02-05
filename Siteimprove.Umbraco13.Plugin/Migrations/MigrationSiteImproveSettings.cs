@@ -1,13 +1,12 @@
-﻿using SiteImprove.Umbraco8.Plugin.Models;
-using SiteImprove.Umbraco8.Plugin.Services;
-using Umbraco.Cms.Infrastructure.Migrations;
+﻿using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Core.Services;
+using SiteImprove.Umbraco13.Plugin.Services;
+using SiteImprove.Umbraco13.Plugin.Models;
 
-
-namespace SiteImprove.Umbraco8.Plugin.Migration
+namespace SiteImprove.Umbraco13.Plugin.Migration
 {
     public class MigrationSiteimproveSettings : MigrationBase
     {

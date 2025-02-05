@@ -7,7 +7,7 @@ using Umbraco.Core.Migrations.Upgrade;
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
 
-namespace SiteImprove.Umbraco8.Plugin
+namespace SiteImprove.Umbraco13.Plugin
 {
     public class PluginComponent : IComponent
     {

@@ -1,18 +1,30 @@
-﻿using SiteImprove.Umbraco8.Plugin.Services;
-using Umbraco.Core;
-using Umbraco.Core.Composing;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Siteimprove.Umbraco13.Plugin.Middlewares;
+using SiteImprove.Umbraco13.Plugin.Services;
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Core.Notifications;
+using Umbraco.Cms.Web.Common.ApplicationBuilder;
 
-namespace SiteImprove.Umbraco8.Plugin
+namespace SiteImprove.Umbraco13.Plugin
 {
-    // Register your own services by implementing IUserComposer
-    [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
-    public class PluginComposer : IUserComposer
+    public class PluginComposer : IComposer
     {
-        public void Compose(Composition composition)
+        public void Compose(IUmbracoBuilder builder)
         {
-            composition.RegisterUnique<SiteImproveSettingsService>();
-            composition.RegisterUnique<SiteImproveUrlMapService>();
-            composition.Components().Append<PluginComponent>();
+            // Adds application starting notification
+            builder.AddNotificationHandler<UmbracoApplicationStartingNotification, AppStartingHandler>();
+            // Adds siteimprove services
+            builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
+            builder.Services.AddTransient<ISiteImproveUrlMapService, SiteimproveUrlMapService>();
+            // Adds siteimprove middleware
+            builder.Services.Configure<UmbracoPipelineOptions>(
+                options => options.AddFilter(
+                    new UmbracoPipelineFilter(
+                        "ScriptInjectionFilter",
+                        postPipeline: app => app.UseMiddleware<PreviewScriptInjectionMiddleware>()
+            )));
         }
     }
 }

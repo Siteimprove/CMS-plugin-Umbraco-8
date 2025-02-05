@@ -1,11 +1,10 @@
-﻿
-namespace SiteImprove.Umbraco8.Plugin
+﻿namespace SiteImprove.Umbraco13.Plugin
 {
     public class Constants
     {
         public const string SiteImproveDbTable = "SiteImprove_settings";
         public const string SiteImproveUrlMapDbTable = "SiteImproveUrlMap";
         public const string SiteImproveMenuActionFactory = "SiteImproveMenuActions";
-        public static readonly string SiteImproveTokenUrl = "https://my2.siteimprove.com/auth/token" + "?cms=" + Umbraco.Core.Configuration.UmbracoVersion.Current.ToString();
+        public const string OverlayUrl = "https://cdn.siteimprove.net/cms/overlay-v2.js";
     }
 }

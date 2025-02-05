@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SiteImprove.Umbraco8.Plugin.Models;
+using SiteImprove.Umbraco13.Plugin.Models;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Extensions;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.PublishedContent;
 
-namespace SiteImprove.Umbraco8.Plugin.Services
+namespace SiteImprove.Umbraco13.Plugin.Services
 {
     public class SiteimproveUrlMapService : ISiteImproveUrlMapService
     {

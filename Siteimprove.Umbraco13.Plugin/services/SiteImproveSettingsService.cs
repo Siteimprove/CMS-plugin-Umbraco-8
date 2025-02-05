@@ -1,10 +1,10 @@
-﻿using SiteImprove.Umbraco8.Plugin.Models;
+﻿using SiteImprove.Umbraco13.Plugin.Models;
 using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Configuration;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Extensions;
 
-namespace SiteImprove.Umbraco8.Plugin.Services
+namespace SiteImprove.Umbraco13.Plugin.Services
 {
     public class SiteimproveSettingsService : ISiteimproveSettingsService
     {

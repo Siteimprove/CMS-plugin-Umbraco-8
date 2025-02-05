@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Umbraco.Cms.Core.Models.PublishedContent;
-using Umbraco.Cms.Core.Web;
-using Umbraco.Cms.Core;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Extensions;
 using Newtonsoft.Json;
 using Umbraco.Cms.Core.Configuration;
-using SiteImprove.Umbraco8.Plugin.Models;
-using SiteImprove.Umbraco8.Plugin.Services;
+using SiteImprove.Umbraco13.Plugin.Services;
+using SiteImprove.Umbraco13.Plugin.Models;
 
 namespace Siteimprove.Umbraco13.Plugin.Controllers
 {

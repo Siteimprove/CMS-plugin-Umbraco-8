@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-using Siteimprove.Models;
 using System.Text;
-using Umbraco.Cms.Core.Models.PublishedContent;
-using Umbraco.Cms.Core;
-using Umbraco.Cms.Core.Web;
-using Siteimprove.Services;
-using Umbraco.Extensions;
 using Umbraco.Cms.Core.Configuration;
+using SiteImprove.Umbraco13.Plugin;
+using SiteImprove.Umbraco13.Plugin.Services;
 
-namespace Siteimprove.Middlewares
+namespace Siteimprove.Umbraco13.Plugin.Middlewares
 {
     public class PreviewScriptInjectionMiddleware
     {
