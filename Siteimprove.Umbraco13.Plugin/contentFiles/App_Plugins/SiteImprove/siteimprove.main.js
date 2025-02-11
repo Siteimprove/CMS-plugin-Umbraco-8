@@ -12,8 +12,8 @@
 	});
 }
 
-function InitializeSiteimprove($scope) {
-        $.get("/umbraco/backoffice/api/SiteImproveApi/GetUmbracoVersion")
+function InitializeSiteimprove($scope) {        
+        $.get(`${window.siteimprove.helper.backofficeApiUrl}/GetUmbracoVersion`)
             .then(function(response) {
                 initializeContentAssistant(response);
             });
@@ -25,7 +25,7 @@ function InitializeSiteimprove($scope) {
 
 function initializeContentAssistant(umbracoVersion) {
     const script = document.createElement("script");
-    script.src = "https://cdn.siteimprove.net/cms/overlay-v2.js";
+    script.src = window.siteimprove.helper.overlayUrl;
     script.onload = function() {
         var si = window._si || [];
         si.push(["setSession", null, null, `umbraco-${umbracoVersion}`]);

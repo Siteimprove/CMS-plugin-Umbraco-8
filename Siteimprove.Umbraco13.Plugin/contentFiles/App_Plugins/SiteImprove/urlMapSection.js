@@ -2,7 +2,7 @@ angular.module("umbraco").controller("Siteimprove.UrlMapController", [
     "$scope", "$http",
     function ($scope, $http) {
         $scope.urlMap = { id: null, newDomain: null };
-        const backofficeApiUrl = "/umbraco/backoffice/api/SiteImproveApi";
+        const backofficeApiUrl = window.siteimprove.helper.backofficeApiUrl;
 
         $scope.saveUrlMap = function() {
             $http.post(`${backofficeApiUrl}/SaveUrlMap`, {

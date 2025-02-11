@@ -10,6 +10,7 @@
 siteimprove.helper = {
 
     backofficeApiUrl: "/umbraco/backoffice/api/SiteImproveApi",
+    overlayUrl: "https://cdn.siteimprove.net/cms/overlay-v2.js",
     isCreatingPage: false,
 
     /**
@@ -36,7 +37,7 @@ siteimprove.helper = {
      * @return {Promise}
      */
     getPageUrl: function (pageId) {
-        return $.get(`${siteimprove.helper.backofficeApiUrl}/getPageUrl?pageid=${pageId}`)
+        return $.get(`${this.backofficeApiUrl}/getPageUrl?pageid=${pageId}`)
             .then()
             .fail(function (error) {
                 if (siteimprove.log)
