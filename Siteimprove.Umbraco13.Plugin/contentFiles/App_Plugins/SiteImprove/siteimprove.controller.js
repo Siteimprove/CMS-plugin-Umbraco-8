@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * Factory that is used by then menu actions in the edit scope
  */
 angular.module("umbraco").factory("SiteImproveMenuActions", [

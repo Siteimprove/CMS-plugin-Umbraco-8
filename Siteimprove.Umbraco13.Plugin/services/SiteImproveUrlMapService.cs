@@ -9,6 +9,9 @@ using Umbraco.Extensions;
 using Umbraco.Cms.Core.Web;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.PublishedContent;
+using Umbraco.Cms.Core.Routing;
+using Umbraco.Cms.Infrastructure.Migrations.Expressions.Insert;
+using NPoco;
 
 namespace SiteImprove.Umbraco13.Plugin.Services
 {
@@ -22,6 +25,18 @@ namespace SiteImprove.Umbraco13.Plugin.Services
         {
             this._scopeProvider = scopeProvider;
             this._ctxFactory = ctxFactory;
+        }
+
+        public async Task<bool> SaveUrlMap(SiteImproveUrlMap row)
+        {
+            int response = -1;
+
+            if (row.Id == -1)
+                response = await Insert(row) != null ? 1 : -1;
+            else
+                response = await Update(row);
+
+            return response == 1;
         }
 
         public Task<object> Insert(SiteImproveUrlMap row)
@@ -50,42 +65,49 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             }
         }
 
-        public Task<SiteImproveUrlMap> GetByPageId(int pageId)
+        public SiteImproveUrlMap GetUrlMap()
         {
-            using (var scope = _scopeProvider.CreateScope(autoComplete: true))
+            try
             {
-                var sql = scope.SqlContext.Sql().SelectAll().From<SiteImproveUrlMap>().Where<SiteImproveUrlMap>(m => m.PageId == pageId);
-                var selectResult = scope.Database.FirstOrDefaultAsync<SiteImproveUrlMap>(sql);
-                return selectResult;
+                using (var scope = _scopeProvider.CreateScope(autoComplete: true))
+                {
+                    var sql = scope.Database.SqlContext.Sql().Select<SiteImproveUrlMap>().From<SiteImproveUrlMap>().SelectTop(1);
+                    var result = scope.Database.Fetch<SiteImproveUrlMap>(sql);
+                    return result.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {                
+                return null;
             }
         }
 
-        public async Task<string> GetPageUrlByPageId(int pageId)
+        public string GetPageUrlByPageId(int pageId)
         {
             using (UmbracoContextReference umbracoContextReference = _ctxFactory.EnsureUmbracoContext())
             {
                 var node = umbracoContextReference.UmbracoContext.Content?.GetById(pageId);
-                var originalUrl = node != null ? node.Url(mode: UrlMode.Absolute) : "";
-                var urlMaps = await GetAll();
-                SiteImproveUrlMap currentMapping = GetMapping(pageId, urlMaps);
-                var url = currentMapping == default
-                    ? originalUrl
-                    : originalUrl.Replace(currentMapping.CurrentUrlPart, currentMapping.NewUrlPart);
+                var absoluteUrl = node != null ? node.Url(mode: UrlMode.Absolute) : "";                
+                if (string.IsNullOrEmpty(absoluteUrl))
+                {
+                    return "";
+                }
+
+                var urlMap = GetUrlMap();
+                if (urlMap == null || string.IsNullOrEmpty(urlMap.NewDomain)) 
+                {
+                    return absoluteUrl;
+                }
+
+                Uri currentUri = new Uri(absoluteUrl);
+                var currentDomain = currentUri.GetLeftPart(UriPartial.Authority);
+                
+                var newDomain = urlMap.NewDomain;
+                newDomain = newDomain[newDomain.Length - 1] == '/' ? 
+                    newDomain.Substring(0, newDomain.Length - 1) : newDomain;
+
+                var url = absoluteUrl.Replace(currentDomain, newDomain);
                 return url;
-            }
-        }
-
-        private SiteImproveUrlMap GetMapping(int pageId, List<SiteImproveUrlMap> maps)
-        {
-            if (maps.Any(m => m.PageId == pageId && !string.IsNullOrWhiteSpace(m.CurrentUrlPart)))
-            {
-                return maps.First(m => m.PageId == pageId);
-            }
-
-            using (UmbracoContextReference ctxReference = _ctxFactory.EnsureUmbracoContext())
-            {
-                var node = ctxReference.UmbracoContext.Content?.GetById(pageId);
-                return node.Parent != null ? GetMapping(node.Parent.Id, maps) : default;
             }
         }
     }

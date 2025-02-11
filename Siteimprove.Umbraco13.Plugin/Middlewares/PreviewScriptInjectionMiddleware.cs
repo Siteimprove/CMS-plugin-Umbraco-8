@@ -42,7 +42,7 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
                         var pageUrl = "";
                         if (Int32.TryParse(context.Request.Query["id"], out var pageId)) 
                         {
-                            pageUrl = await _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
+                            pageUrl = _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
                         }
                         // In the script below, we need to access the iframe that contains the preview frame
                         var script = $@"

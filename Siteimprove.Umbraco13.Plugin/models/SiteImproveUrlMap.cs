@@ -9,24 +9,15 @@ namespace SiteImprove.Umbraco13.Plugin.Models
     {
         public SiteImproveUrlMap()
         {
-            CurrentUrlPart = string.Empty;
-            NewUrlPart = string.Empty;
+            NewDomain = string.Empty;
         }
 
         [PrimaryKeyColumn(AutoIncrement = true)]
         [Column("id")]
-        public int Id { get; set; }
+        public int Id { get; set; }    
 
-        [Column("CurrentUrlPart")]
+        [Column("NewDomain")]
         [Length(1024)]
-        public string CurrentUrlPart { get; set; }
-
-        [Column("NewUrlPart")]
-        [Length(1024)]
-        public string NewUrlPart { get; set; }
-
-        [Column("PageId")]
-        public int PageId { get; set; }
-
+        public string NewDomain { get; set; }
     }
 }

@@ -4,13 +4,10 @@ namespace SiteImprove.Umbraco13.Plugin.Services
 {
     public interface ISiteImproveUrlMapService
     {
-        Task<object> Insert(SiteImproveUrlMap row);
+        Task<bool> SaveUrlMap(SiteImproveUrlMap row);
 
-        Task<int> Update(SiteImproveUrlMap row);
+        string GetPageUrlByPageId(int pageId);
 
-        Task<List<SiteImproveUrlMap>> GetAll();
-
-        Task<SiteImproveUrlMap> GetByPageId(int pageId);
-        Task<string> GetPageUrlByPageId(int pageId);
+        SiteImproveUrlMap GetUrlMap();
     }
 }

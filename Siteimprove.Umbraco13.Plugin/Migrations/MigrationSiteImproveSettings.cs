@@ -27,7 +27,7 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
                 return;
             }
 
-            var row = _siteimproveSettingsService.SelectTopRow();
+            var row = _siteimproveSettingsService.GetSettings();
             if (row != null && !row.Installed)
             {
                 _siteimproveSettingsService.Insert(GenerateDefaultModel());
@@ -51,7 +51,7 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
         {
             var plan = new MigrationPlan("MigrationSiteimproveSettings");
             plan.From(string.Empty)
-                .To<MigrationSiteimproveSettings>("MigrationSiteimproveSettings");
+                .To<MigrationSiteimproveSettings>("13.0.0");
             var upgrader = new Upgrader(plan);
             upgrader.Execute(migrationPlanExecutor, scopeProvider, keyValueService);
         }

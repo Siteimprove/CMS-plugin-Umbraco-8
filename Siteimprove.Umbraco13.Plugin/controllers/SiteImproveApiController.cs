@@ -21,15 +21,15 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetSettings(int pageId)
+        public async Task<ActionResult> GetUrlMap(int pageId)
         {
-            var urlMap = await _siteImproveUrlMapService.GetByPageId(pageId);
-            var model = new
-            {
-                currentUrlPart = urlMap?.CurrentUrlPart ?? string.Empty,
-                newUrlPart = urlMap?.NewUrlPart ?? string.Empty
-            };
-            return Content(JsonConvert.SerializeObject(model), "application/json");
+           var urlMap = _siteImproveUrlMapService.GetUrlMap();
+           var model = new
+           {
+               id = urlMap?.Id ?? -1,
+               newDomain = urlMap?.NewDomain ?? string.Empty
+           };
+           return Content(JsonConvert.SerializeObject(model), "application/json");
         }
 
         [HttpGet]
@@ -39,32 +39,15 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveUrlMap([FromBody] SaveUrlMapParams saveUrlMapParams)
+        public async Task<ActionResult> SaveUrlMap([FromBody] SiteImproveUrlMap saveUrlMapParams)
         {
             try
             {
-                var current = await _siteImproveUrlMapService.GetByPageId(saveUrlMapParams.PageId);
-                if (current == null)
-                {
-                    current = new SiteImproveUrlMap
-                    {
-                        PageId = saveUrlMapParams.PageId,
-                        CurrentUrlPart = saveUrlMapParams.CurrentUrlPart,
-                        NewUrlPart = saveUrlMapParams.NewUrlPart
-                    };
-                    await _siteImproveUrlMapService.Insert(current);
-                }
-                else
-                {
-                    current.CurrentUrlPart = saveUrlMapParams.CurrentUrlPart;
-                    current.NewUrlPart = saveUrlMapParams.NewUrlPart;
-                    await _siteImproveUrlMapService.Update(current);
-                }
-
+                var success = await _siteImproveUrlMapService.SaveUrlMap(saveUrlMapParams);
                 var model = new
                 {
-                    success = true,
-                    message = "Saved"
+                    success,
+                    message = success ? "Saved" : "Error"
                 };
                 return Content(JsonConvert.SerializeObject(model), "application/json");
             }
@@ -79,17 +62,10 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
             }
         }
 
-        public class SaveUrlMapParams
-        {
-            public int PageId { get; set; }
-            public string CurrentUrlPart { get; set; }
-            public string NewUrlPart { get; set; }
-        }
-
         [HttpGet]
-        public async Task<ActionResult> GetPageUrl(int pageId)
+        public ActionResult GetPageUrl(int pageId)
         {
-            var url = await _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
+            var url = _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
             var urlWasFound = !string.IsNullOrEmpty(url);
             var model = new
             {

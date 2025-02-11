@@ -13,11 +13,26 @@
 }
 
 function InitializeSiteimprove($scope) {
+        $.get("/umbraco/backoffice/api/SiteImproveApi/GetUmbracoVersion")
+            .then(function(response) {
+                initializeContentAssistant(response);
+            });
         var siHelper = window.siteimprove.helper;        			
         if ($scope) {
             $scope.$on("$routeChangeSuccess", siHelper.on$routeChangeSuccess.bind(siHelper));
         }
 };
+
+function initializeContentAssistant(umbracoVersion) {
+    const script = document.createElement("script");
+    script.src = "https://cdn.siteimprove.net/cms/overlay-v2.js";
+    script.onload = function() {
+        var si = window._si || [];
+        si.push(["setSession", null, null, `umbraco-${umbracoVersion}`]);
+        si.push(["clear"]);
+    };
+    document.body.appendChild(script);
+}
 
 app.config(["$provide", function ($provide) {
     $provide.decorator("$controller", [

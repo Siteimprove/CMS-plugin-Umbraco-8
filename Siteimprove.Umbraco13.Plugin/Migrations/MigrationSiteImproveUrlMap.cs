@@ -23,7 +23,7 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
         {
             var plan = new MigrationPlan("MigrationSiteimproveUrlMap");
             plan.From(string.Empty)
-                .To<MigrationSiteimproveUrlMap>("MigrationSiteimproveUrlMap");
+                .To<MigrationSiteimproveUrlMap>("13.0.0");
             var upgrader = new Upgrader(plan);
             upgrader.Execute(migrationPlanExecutor, scopeProvider, keyValueService);
         }

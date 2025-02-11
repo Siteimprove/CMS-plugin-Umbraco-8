@@ -4,7 +4,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
 {
     public interface ISiteimproveSettingsService
     {
-        SiteImproveSettingsModel SelectTopRow();
+        SiteImproveSettingsModel GetSettings();
 
         void Insert(SiteImproveSettingsModel row);
 

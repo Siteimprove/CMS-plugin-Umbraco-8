@@ -15,7 +15,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             _scopeProvider = scopeProvider;
         }
 
-        public SiteImproveSettingsModel SelectTopRow()
+        public SiteImproveSettingsModel GetSettings()
         {
             try
             {
