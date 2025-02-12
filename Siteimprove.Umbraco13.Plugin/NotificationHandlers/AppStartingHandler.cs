@@ -4,9 +4,9 @@ using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Core;
-using SiteImprove.Umbraco13.Plugin.Migration;
+using Siteimprove.Umbraco13.Plugin.Migration;
 
-namespace SiteImprove.Umbraco13.Plugin
+namespace Siteimprove.Umbraco13.Plugin
 {
     public class AppStartingHandler : INotificationHandler<UmbracoApplicationStartingNotification>
     {

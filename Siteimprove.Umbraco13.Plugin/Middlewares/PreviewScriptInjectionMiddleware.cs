@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Text;
 using Umbraco.Cms.Core.Configuration;
-using SiteImprove.Umbraco13.Plugin;
-using SiteImprove.Umbraco13.Plugin.Services;
+using Siteimprove.Umbraco13.Plugin;
+using Siteimprove.Umbraco13.Plugin.Services;
 
 namespace Siteimprove.Umbraco13.Plugin.Middlewares
 {
     public class PreviewScriptInjectionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ISiteImproveUrlMapService _siteImproveUrlMapService;
+        private readonly ISiteimproveUrlMapService _siteImproveUrlMapService;
         private readonly IUmbracoVersion _umbracoVersion;
 
         public PreviewScriptInjectionMiddleware(RequestDelegate next, 
-            ISiteImproveUrlMapService siteImproveUrlMapService,
+            ISiteimproveUrlMapService siteImproveUrlMapService,
             IUmbracoVersion umbracoVersion)
         {
             _next = next;

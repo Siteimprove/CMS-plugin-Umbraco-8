@@ -3,14 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Siteimprove.Umbraco13.Plugin.Dashboards;
 using Siteimprove.Umbraco13.Plugin.Middlewares;
 using Siteimprove.Umbraco13.Plugin.Sections;
-using SiteImprove.Umbraco13.Plugin.Services;
+using Siteimprove.Umbraco13.Plugin.Services;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Sections;
 using Umbraco.Cms.Web.Common.ApplicationBuilder;
 
-namespace SiteImprove.Umbraco13.Plugin
+namespace Siteimprove.Umbraco13.Plugin
 {
     public class PluginComposer : IComposer
     {
@@ -20,7 +20,7 @@ namespace SiteImprove.Umbraco13.Plugin
             builder.AddNotificationHandler<UmbracoApplicationStartingNotification, AppStartingHandler>();                       
             // Adds siteimprove services
             builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
-            builder.Services.AddTransient<ISiteImproveUrlMapService, SiteimproveUrlMapService>();
+            builder.Services.AddTransient<ISiteimproveUrlMapService, SiteimproveUrlMapService>();
             // Adds Siteimprove section on the top menu
             builder.AddSection<SiteimproveUrlMapSection>();
             builder.AddDashboard<SiteimproveUrlMapDashboard>();

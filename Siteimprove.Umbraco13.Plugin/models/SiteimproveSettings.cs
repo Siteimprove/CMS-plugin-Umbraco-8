@@ -1,11 +1,11 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace SiteImprove.Umbraco13.Plugin.Models
+namespace Siteimprove.Umbraco13.Plugin.Models
 {
-    [TableName(Constants.SiteImproveDbTable)]
+    [TableName(Constants.SiteimproveDbTable)]
     [PrimaryKey("id", AutoIncrement = true)]
-    public class SiteImproveSettingsModel //: ColumnDefinition
+    public class SiteimproveSettings //: ColumnDefinition
     {
         [PrimaryKeyColumn(AutoIncrement = true)]
         [Column("id")]

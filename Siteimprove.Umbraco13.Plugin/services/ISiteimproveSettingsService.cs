@@ -1,13 +1,13 @@
-using SiteImprove.Umbraco13.Plugin.Models;
+using Siteimprove.Umbraco13.Plugin.Models;
 
-namespace SiteImprove.Umbraco13.Plugin.Services
+namespace Siteimprove.Umbraco13.Plugin.Services
 {
     public interface ISiteimproveSettingsService
     {
-        SiteImproveSettingsModel GetSettings();
+        SiteimproveSettings GetSettings();
 
-        void Insert(SiteImproveSettingsModel row);
+        void Insert(SiteimproveSettings row);
 
-        void Update(SiteImproveSettingsModel row);
+        void Update(SiteimproveSettings row);
     }
 }

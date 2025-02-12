@@ -9,7 +9,7 @@
 
 siteimprove.helper = {
 
-    backofficeApiUrl: "/umbraco/backoffice/api/SiteImproveApi",
+    backofficeApiUrl: "/umbraco/backoffice/api/SiteimproveApi",
     overlayUrl: "https://cdn.siteimprove.net/cms/overlay-v2.js",
     isCreatingPage: false,
 
@@ -20,7 +20,7 @@ siteimprove.helper = {
         const _si = window._si || [];
 
         if (siteimprove.log)
-            console.log("SiteImprove pass: " + method + " - " + url);
+            console.log("Siteimprove pass: " + method + " - " + url);
 
         _si.push([method, url, ""]);
     },

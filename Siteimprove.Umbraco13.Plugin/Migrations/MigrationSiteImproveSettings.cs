@@ -3,10 +3,10 @@ using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Core.Services;
-using SiteImprove.Umbraco13.Plugin.Services;
-using SiteImprove.Umbraco13.Plugin.Models;
+using Siteimprove.Umbraco13.Plugin.Services;
+using Siteimprove.Umbraco13.Plugin.Models;
 
-namespace SiteImprove.Umbraco13.Plugin.Migration
+namespace Siteimprove.Umbraco13.Plugin.Migration
 {
     public class MigrationSiteimproveSettings : MigrationBase
     {
@@ -20,9 +20,9 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
 
         protected override void Migrate()
         {
-            if (!TableExists(Constants.SiteImproveDbTable))
+            if (!TableExists(Constants.SiteimproveDbTable))
             {
-                Create.Table<SiteImproveSettingsModel>(false).Do();
+                Create.Table<SiteimproveSettings>(false).Do();
                 _siteimproveSettingsService.Insert(GenerateDefaultModel());
                 return;
             }
@@ -35,13 +35,13 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
 
             if (row == null)
             {
-                Create.Table<SiteImproveSettingsModel>(true).Do();                
+                Create.Table<SiteimproveSettings>(true).Do();                
             }
         }
 
-        private SiteImproveSettingsModel GenerateDefaultModel()
+        private SiteimproveSettings GenerateDefaultModel()
         {
-            return new SiteImproveSettingsModel
+            return new SiteimproveSettings
             {
                 Installed = true,
             };

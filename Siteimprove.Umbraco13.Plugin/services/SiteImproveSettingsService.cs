@@ -1,10 +1,10 @@
-﻿using SiteImprove.Umbraco13.Plugin.Models;
+﻿using Siteimprove.Umbraco13.Plugin.Models;
 using Microsoft.Extensions.Logging;
 using Umbraco.Cms.Core.Configuration;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Extensions;
 
-namespace SiteImprove.Umbraco13.Plugin.Services
+namespace Siteimprove.Umbraco13.Plugin.Services
 {
     public class SiteimproveSettingsService : ISiteimproveSettingsService
     {
@@ -15,14 +15,14 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             _scopeProvider = scopeProvider;
         }
 
-        public SiteImproveSettingsModel GetSettings()
+        public SiteimproveSettings GetSettings()
         {
             try
             {
                 using (var scope = _scopeProvider.CreateScope(autoComplete: true))
                 {
-                    var sql = scope.Database.SqlContext.Sql().Select<SiteImproveSettingsModel>().From<SiteImproveSettingsModel>().SelectTop(1);
-                    var resultList = scope.Database.Fetch<SiteImproveSettingsModel>(sql);
+                    var sql = scope.Database.SqlContext.Sql().Select<SiteimproveSettings>().From<SiteimproveSettings>().SelectTop(1);
+                    var resultList = scope.Database.Fetch<SiteimproveSettings>(sql);
                     return resultList.FirstOrDefault();
                 }
             }
@@ -32,7 +32,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             }
         }
 
-        public void Insert(SiteImproveSettingsModel row)
+        public void Insert(SiteimproveSettings row)
         {
             using (var scope = _scopeProvider.CreateScope(autoComplete: true))
             {
@@ -40,7 +40,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             }
         }
 
-        public void Update(SiteImproveSettingsModel row)
+        public void Update(SiteimproveSettings row)
         {
             using (var scope = _scopeProvider.CreateScope(autoComplete: true))
             {

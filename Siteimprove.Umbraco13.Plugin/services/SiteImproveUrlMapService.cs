@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SiteImprove.Umbraco13.Plugin.Models;
+using Siteimprove.Umbraco13.Plugin.Models;
 using Umbraco.Cms.Infrastructure.Scoping;
 using Umbraco.Extensions;
 using Umbraco.Cms.Core.Web;
@@ -13,9 +13,9 @@ using Umbraco.Cms.Core.Routing;
 using Umbraco.Cms.Infrastructure.Migrations.Expressions.Insert;
 using NPoco;
 
-namespace SiteImprove.Umbraco13.Plugin.Services
+namespace Siteimprove.Umbraco13.Plugin.Services
 {
-    public class SiteimproveUrlMapService : ISiteImproveUrlMapService
+    public class SiteimproveUrlMapService : ISiteimproveUrlMapService
     {
         private readonly IScopeProvider _scopeProvider;
         private readonly IUmbracoContextFactory _ctxFactory;
@@ -27,7 +27,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             this._ctxFactory = ctxFactory;
         }
 
-        public async Task<bool> SaveUrlMap(SiteImproveUrlMap row)
+        public async Task<bool> SaveUrlMap(SiteimproveUrlMap row)
         {
             int response = -1;
 
@@ -39,7 +39,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             return response == 1;
         }
 
-        public Task<object> Insert(SiteImproveUrlMap row)
+        public Task<object> Insert(SiteimproveUrlMap row)
         {
             using (var scope = _scopeProvider.CreateScope(autoComplete: true))
             {
@@ -47,7 +47,7 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             }
         }
 
-        public Task<int> Update(SiteImproveUrlMap row)
+        public Task<int> Update(SiteimproveUrlMap row)
         {
             using (var scope = _scopeProvider.CreateScope(autoComplete: true))
             {
@@ -55,24 +55,24 @@ namespace SiteImprove.Umbraco13.Plugin.Services
             }
         }
 
-        public Task<List<SiteImproveUrlMap>> GetAll()
+        public Task<List<SiteimproveUrlMap>> GetAll()
         {
             using (var scope = _scopeProvider.CreateScope(autoComplete: true))
             {
-                var sql = scope.SqlContext.Sql().SelectAll().From<SiteImproveUrlMap>();
-                var selectResult = scope.Database.FetchAsync<SiteImproveUrlMap>(sql);
+                var sql = scope.SqlContext.Sql().SelectAll().From<SiteimproveUrlMap>();
+                var selectResult = scope.Database.FetchAsync<SiteimproveUrlMap>(sql);
                 return selectResult;
             }
         }
 
-        public SiteImproveUrlMap GetUrlMap()
+        public SiteimproveUrlMap GetUrlMap()
         {
             try
             {
                 using (var scope = _scopeProvider.CreateScope(autoComplete: true))
                 {
-                    var sql = scope.Database.SqlContext.Sql().Select<SiteImproveUrlMap>().From<SiteImproveUrlMap>().SelectTop(1);
-                    var result = scope.Database.Fetch<SiteImproveUrlMap>(sql);
+                    var sql = scope.Database.SqlContext.Sql().Select<SiteimproveUrlMap>().From<SiteimproveUrlMap>().SelectTop(1);
+                    var result = scope.Database.Fetch<SiteimproveUrlMap>(sql);
                     return result.FirstOrDefault();
                 }
             }

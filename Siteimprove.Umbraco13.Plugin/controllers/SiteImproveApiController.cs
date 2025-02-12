@@ -3,17 +3,17 @@ using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Extensions;
 using Newtonsoft.Json;
 using Umbraco.Cms.Core.Configuration;
-using SiteImprove.Umbraco13.Plugin.Services;
-using SiteImprove.Umbraco13.Plugin.Models;
+using Siteimprove.Umbraco13.Plugin.Services;
+using Siteimprove.Umbraco13.Plugin.Models;
 
 namespace Siteimprove.Umbraco13.Plugin.Controllers
 {
-    public class SiteImproveApiController : UmbracoAuthorizedApiController
+    public class SiteimproveApiController : UmbracoAuthorizedApiController
     {
-        private readonly ISiteImproveUrlMapService _siteImproveUrlMapService;
+        private readonly ISiteimproveUrlMapService _siteImproveUrlMapService;
         private readonly IUmbracoVersion _umbracoVersion;
 
-        public SiteImproveApiController(ISiteImproveUrlMapService siteImproveUrlMapService,
+        public SiteimproveApiController(ISiteimproveUrlMapService siteImproveUrlMapService,
             IUmbracoVersion umbracoVersion)
         {
             _siteImproveUrlMapService = siteImproveUrlMapService;
@@ -39,7 +39,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveUrlMap([FromBody] SiteImproveUrlMap saveUrlMapParams)
+        public async Task<ActionResult> SaveUrlMap([FromBody] SiteimproveUrlMap saveUrlMapParams)
         {
             try
             {

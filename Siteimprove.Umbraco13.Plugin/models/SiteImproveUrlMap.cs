@@ -1,13 +1,13 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace SiteImprove.Umbraco13.Plugin.Models
+namespace Siteimprove.Umbraco13.Plugin.Models
 {
-    [TableName(Constants.SiteImproveUrlMapDbTable)]
+    [TableName(Constants.SiteimproveUrlMapDbTable)]
     [PrimaryKey("id", AutoIncrement = true)]
-    public class SiteImproveUrlMap
+    public class SiteimproveUrlMap
     {
-        public SiteImproveUrlMap()
+        public SiteimproveUrlMap()
         {
             NewDomain = string.Empty;
         }

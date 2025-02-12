@@ -1,13 +1,13 @@
-using SiteImprove.Umbraco13.Plugin.Models;
+using Siteimprove.Umbraco13.Plugin.Models;
 
-namespace SiteImprove.Umbraco13.Plugin.Services
+namespace Siteimprove.Umbraco13.Plugin.Services
 {
-    public interface ISiteImproveUrlMapService
+    public interface ISiteimproveUrlMapService
     {
-        Task<bool> SaveUrlMap(SiteImproveUrlMap row);
+        Task<bool> SaveUrlMap(SiteimproveUrlMap row);
 
         string GetPageUrlByPageId(int pageId);
 
-        SiteImproveUrlMap GetUrlMap();
+        SiteimproveUrlMap GetUrlMap();
     }
 }

@@ -1,11 +1,11 @@
-﻿using SiteImprove.Umbraco13.Plugin.Models;
+﻿using Siteimprove.Umbraco13.Plugin.Models;
 using Umbraco.Cms.Core.Migrations;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Scoping;
 
-namespace SiteImprove.Umbraco13.Plugin.Migration
+namespace Siteimprove.Umbraco13.Plugin.Migration
 {
     public class MigrationSiteimproveUrlMap : MigrationBase
     {
@@ -13,9 +13,9 @@ namespace SiteImprove.Umbraco13.Plugin.Migration
 
         protected override void Migrate()
         {
-            if (!TableExists(Constants.SiteImproveUrlMapDbTable))
+            if (!TableExists(Constants.SiteimproveUrlMapDbTable))
             {
-                Create.Table<SiteImproveUrlMap>(false).Do();
+                Create.Table<SiteimproveUrlMap>(false).Do();
             }
         }
 
