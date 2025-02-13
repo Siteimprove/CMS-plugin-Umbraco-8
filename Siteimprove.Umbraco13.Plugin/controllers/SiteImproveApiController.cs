@@ -47,7 +47,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
                 var model = new
                 {
                     success,
-                    message = success ? "Saved" : "Error"
+                    message = success ? "Saved!" : "Error"
                 };
                 return Content(JsonConvert.SerializeObject(model), "application/json");
             }
@@ -56,7 +56,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
                 var model = new
                 {
                     success = false,
-                    message = ex.Message
+                    message = $"Error: {ex.Message}"
                 };
                 return Content(JsonConvert.SerializeObject(model), "application/json");
             }

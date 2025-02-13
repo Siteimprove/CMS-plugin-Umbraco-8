@@ -1,7 +1,7 @@
 ﻿<div ng-controller="Siteimprove.UrlMapController" class="content-container">
     <h1 class="title">URL Map</h1>
-    <div class="form-container">
-        <input id="urlMapInput" type="text" value="{{urlMap.newDomain}}" ng-model="urlMap.newDomain" />
-        <button class="btn" ng-click="saveUrlMap()">Save</button>
-    </div>
+    <form name="url-map-form" ng-submit="saveUrlMap()">
+        <input no-dirty-check name="url-map-input" type="text" value="{{urlMap.newDomain}}" ng-model="urlMap.newDomain" />
+        <button class="btn">Save</button>      
+    </form>
 </div>

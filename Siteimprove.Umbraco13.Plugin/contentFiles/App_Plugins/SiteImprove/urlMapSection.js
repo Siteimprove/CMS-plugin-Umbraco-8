@@ -1,6 +1,6 @@
 angular.module("umbraco").controller("Siteimprove.UrlMapController", [
-    "$scope", "$http",
-    function ($scope, $http) {
+    "$scope", "$http", "notificationsService",
+    function ($scope, $http, notificationsService) {
         $scope.urlMap = { id: null, newDomain: null };
         const backofficeApiUrl = window.siteimprove.helper.backofficeApiUrl;
 
@@ -10,15 +10,17 @@ angular.module("umbraco").controller("Siteimprove.UrlMapController", [
                 NewDomain: $scope.urlMap.newDomain
             })
             .then(function(resp) {
-                if (resp.data.success === true) {
-                    setTimeout(siteimprove.reloadPage, 1000);
-                }
+                if (resp.data.success) {
+                    notificationsService.success(resp.data.message);
+                } else {
+                    notificationsService.error(resp.data.message);
+                }              
             });
         }
 
         $scope.loadData = function () {
             $http.get(`${backofficeApiUrl}/getUrlMap`)
-                .then(function (resp) {                                   
+                .then(function (resp) {                                                    
                     $scope.urlMap = resp.data;
                 });
         };
