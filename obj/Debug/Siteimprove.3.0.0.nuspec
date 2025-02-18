@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Siteimprove</id>
+    <version>3.0.0</version>
+    <title>Siteimprove Umbraco Plugin</title>
+    <authors>Siteimprove</authors>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</projectUrl>
+    <description>Plugin tool for Umbraco</description>
+    <copyright>© Siteimprove</copyright>
+    <tags>Siteimprove umbraco-v13 Umbraco Plugin</tags>
+    <repository type="git" url="https://github.com/Siteimprove/CMS-plugin-Umbraco-13" commit="5bdfdab1025aa3188196ef60f13e8eda8c6f39dc" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Umbraco.Cms.Web.BackOffice" version="13.3.0" exclude="Build,Analyzers" />
+        <dependency id="Umbraco.Cms.Web.Website" version="13.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\source\CMS-plugin-Umbraco-13\bin\Debug\net8.0\Siteimprove.Umbraco13.Plugin.dll" target="lib\net8.0\Siteimprove.Umbraco13.Plugin.dll" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\lang\en-us.xml" target=".\contentFiles\App_Plugins\Siteimprove\lang\en-us.xml" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\package.manifest" target=".\contentFiles\App_Plugins\Siteimprove\package.manifest" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\siteimprove.controller.js" target=".\contentFiles\App_Plugins\Siteimprove\siteimprove.controller.js" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\siteimprove.helper.js" target=".\contentFiles\App_Plugins\Siteimprove\siteimprove.helper.js" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\siteimprove.main.js" target=".\contentFiles\App_Plugins\Siteimprove\siteimprove.main.js" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\styles\urlMapSection.css" target=".\contentFiles\App_Plugins\Siteimprove\styles\urlMapSection.css" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\urlMapSection.js" target=".\contentFiles\App_Plugins\Siteimprove\urlMapSection.js" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\contentFiles\App_Plugins\Siteimprove\views\urlMapSection.html" target=".\contentFiles\App_Plugins\Siteimprove\views\urlMapSection.html" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\buildTransitive\Siteimprove.targets" target="buildTransitive\Siteimprove.targets" />
+    <file src="C:\source\CMS-plugin-Umbraco-13\README.md" target=".\README.md" />
+  </files>
+</package>
