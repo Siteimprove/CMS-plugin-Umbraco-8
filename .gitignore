@@ -1,6 +1,5 @@
 /bin/
 /obj/
-/buildTransitive/
 
 .vs/
 *.suo
