@@ -24,3 +24,5 @@ project.lock.json
 *.cache
 *.mdf
 *.ldf
+
+*.sln
