@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="CopySIFiles" BeforeTargets="Build">
+    <ItemGroup>
+      <SIPluginFiles Include="$(MSBuildThisFileDirectory)..\contentFiles\App_Plugins\Siteimprove\**\*.*" />
+    </ItemGroup>
+    <Message Text="Copying Siteimprove plugin files" Importance="high" />
+    <Copy SourceFiles="@(SIPluginFiles)" DestinationFiles="@(SIPluginFiles->'$(MSBuildProjectDirectory)\App_Plugins\Siteimprove\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="false" />
+  </Target>
+
+  <Target Name="ClearSIFiles" BeforeTargets="Clean">
+    <Message Text="Clearing Siteimprove plugin files" Importance="high" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\App_Plugins\Siteimprove\" />
+  </Target>
+</Project>

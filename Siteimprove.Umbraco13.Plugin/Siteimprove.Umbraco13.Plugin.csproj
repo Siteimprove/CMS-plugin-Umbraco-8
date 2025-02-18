@@ -1,10 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <AssemblyVersion>13.0.0</AssemblyVersion>
+    <version>3.0.0</version>
+    <FileVersion>3.0.0</FileVersion>
+    <ContentTargetFolders>.</ContentTargetFolders>
+    <Product>Siteimprove</Product>
+    <PackageId>Siteimprove</PackageId>
+    <Title>Siteimprove Umbraco Plugin</Title>
+    <Description>Plugin tool for Umbraco</Description>
+    <PackageTags>Siteimprove umbraco-v13 Umbraco Plugin</PackageTags>
+    <Authors>Siteimprove</Authors>
+    <Copyright>© Siteimprove</Copyright>
+    <PackageProjectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <PackageReadmeFile>README.md</PackageReadmeFile>    
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,4 +26,38 @@
     <PackageReference Include="Umbraco.Cms.Web.Website" Version="13.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="contentFiles\App_Plugins\Siteimprove\**" ExcludeFromSingleFile="true" CopyToPublishDirectory="Always" />
+    <None Include="buildTransitive\**" Pack="true" PackagePath="buildTransitive" />
+    <None Include="README.md">
+      <Pack>true</Pack>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\lang\en-us.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\views\urlMapSection.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\styles\urlMapSection.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\urlMapSection.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.controller.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.helper.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.main.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Update="contentFiles\App_Plugins\Siteimprove\package.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+  </ItemGroup>
 </Project>
