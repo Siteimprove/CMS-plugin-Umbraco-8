@@ -8,26 +8,26 @@ using Siteimprove.Umbraco13.Plugin.Migration;
 
 namespace Siteimprove.Umbraco13.Plugin
 {
-    public class AppStartingHandler : INotificationHandler<UmbracoApplicationStartingNotification>
-    {
-        private readonly IMigrationPlanExecutor _migrationPlanExecuter;
-        private readonly IScopeProvider _scopeProvider;
-        private readonly IKeyValueService _keyValueService;
+	public class AppStartingHandler : INotificationHandler<UmbracoApplicationStartingNotification>
+	{
+		private readonly IMigrationPlanExecutor _migrationPlanExecuter;
+		private readonly IScopeProvider _scopeProvider;
+		private readonly IKeyValueService _keyValueService;
 
-        public AppStartingHandler(IMigrationPlanExecutor migrationPlanExecuter, IScopeProvider scopeProvider, IKeyValueService keyValueService)
-        {
-            _migrationPlanExecuter = migrationPlanExecuter;
-            _scopeProvider = scopeProvider;
-            _keyValueService = keyValueService;
-        }
+		public AppStartingHandler(IMigrationPlanExecutor migrationPlanExecuter, IScopeProvider scopeProvider, IKeyValueService keyValueService)
+		{
+			_migrationPlanExecuter = migrationPlanExecuter;
+			_scopeProvider = scopeProvider;
+			_keyValueService = keyValueService;
+		}
 
-        public void Handle(UmbracoApplicationStartingNotification notification)
-        {
-            if (notification.RuntimeLevel >= RuntimeLevel.Run)
-            {
-                MigrationSiteimproveSettings.ExecuteMigrationPlan(_migrationPlanExecuter, _scopeProvider, _keyValueService);
-                MigrationSiteimproveUrlMap.ExecuteMigrationPlan(_migrationPlanExecuter, _scopeProvider, _keyValueService);
-            }
-        }
-    }
+		public void Handle(UmbracoApplicationStartingNotification notification)
+		{
+			if (notification.RuntimeLevel >= RuntimeLevel.Run)
+			{
+				MigrationSiteimproveSettings.ExecuteMigrationPlan(_migrationPlanExecuter, _scopeProvider, _keyValueService);
+				MigrationSiteimproveUrlMap.ExecuteMigrationPlan(_migrationPlanExecuter, _scopeProvider, _keyValueService);
+			}
+		}
+	}
 }

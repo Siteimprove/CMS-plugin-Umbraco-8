@@ -12,25 +12,25 @@ using Umbraco.Cms.Web.Common.ApplicationBuilder;
 
 namespace Siteimprove.Umbraco13.Plugin
 {
-    public class PluginComposer : IComposer
-    {
-        public void Compose(IUmbracoBuilder builder)
-        {                        
-            // Adds application starting notification
-            builder.AddNotificationHandler<UmbracoApplicationStartingNotification, AppStartingHandler>();                       
-            // Adds siteimprove services
-            builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
-            builder.Services.AddTransient<ISiteimproveUrlMapService, SiteimproveUrlMapService>();
-            // Adds Siteimprove section on the top menu
-            builder.AddSection<SiteimproveUrlMapSection>();
-            builder.AddDashboard<SiteimproveUrlMapDashboard>();
-            // Adds siteimprove middleware
-            builder.Services.Configure<UmbracoPipelineOptions>(
-                options => options.AddFilter(
-                    new UmbracoPipelineFilter(
-                        "ScriptInjectionFilter",
-                        postPipeline: app => app.UseMiddleware<PreviewScriptInjectionMiddleware>()
-            )));
-        }
-    }
+	public class PluginComposer : IComposer
+	{
+		public void Compose(IUmbracoBuilder builder)
+		{
+			// Adds application starting notification
+			builder.AddNotificationHandler<UmbracoApplicationStartingNotification, AppStartingHandler>();
+			// Adds siteimprove services
+			builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
+			builder.Services.AddTransient<ISiteimproveUrlMapService, SiteimproveUrlMapService>();
+			// Adds Siteimprove section on the top menu
+			builder.AddSection<SiteimproveUrlMapSection>();
+			builder.AddDashboard<SiteimproveUrlMapDashboard>();
+			// Adds siteimprove middleware
+			builder.Services.Configure<UmbracoPipelineOptions>(
+				options => options.AddFilter(
+					new UmbracoPipelineFilter(
+						"ScriptInjectionFilter",
+						postPipeline: app => app.UseMiddleware<PreviewScriptInjectionMiddleware>()
+			)));
+		}
+	}
 }

@@ -18,7 +18,7 @@
     <RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <PackageReadmeFile>README.md</PackageReadmeFile>    
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,7 +33,7 @@
       <Pack>true</Pack>
     </None>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Content Update="contentFiles\App_Plugins\Siteimprove\lang\en-us.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -55,9 +55,9 @@
     </Content>
     <Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.main.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
+    </Content>
     <Content Update="contentFiles\App_Plugins\Siteimprove\package.manifest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
+    </Content>
   </ItemGroup>
 </Project>

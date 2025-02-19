@@ -7,25 +7,25 @@ using Umbraco.Cms.Infrastructure.Scoping;
 
 namespace Siteimprove.Umbraco13.Plugin.Migration
 {
-    public class MigrationSiteimproveUrlMap : MigrationBase
-    {
-        public MigrationSiteimproveUrlMap(IMigrationContext context) : base(context) {}
+	public class MigrationSiteimproveUrlMap : MigrationBase
+	{
+		public MigrationSiteimproveUrlMap(IMigrationContext context) : base(context) { }
 
-        protected override void Migrate()
-        {
-            if (!TableExists(Constants.SiteimproveUrlMapDbTable))
-            {
-                Create.Table<SiteimproveUrlMap>(false).Do();
-            }
-        }
+		protected override void Migrate()
+		{
+			if (!TableExists(Constants.SiteimproveUrlMapDbTable))
+			{
+				Create.Table<SiteimproveUrlMap>(false).Do();
+			}
+		}
 
-        public static void ExecuteMigrationPlan(IMigrationPlanExecutor migrationPlanExecutor, IScopeProvider scopeProvider, IKeyValueService keyValueService)
-        {
-            var plan = new MigrationPlan("MigrationSiteimproveUrlMap");
-            plan.From(string.Empty)
-                .To<MigrationSiteimproveUrlMap>("13.0.0");
-            var upgrader = new Upgrader(plan);
-            upgrader.Execute(migrationPlanExecutor, scopeProvider, keyValueService);
-        }
-    }
+		public static void ExecuteMigrationPlan(IMigrationPlanExecutor migrationPlanExecutor, IScopeProvider scopeProvider, IKeyValueService keyValueService)
+		{
+			var plan = new MigrationPlan("MigrationSiteimproveUrlMap");
+			plan.From(string.Empty)
+				.To<MigrationSiteimproveUrlMap>("13.0.0");
+			var upgrader = new Upgrader(plan);
+			upgrader.Execute(migrationPlanExecutor, scopeProvider, keyValueService);
+		}
+	}
 }
