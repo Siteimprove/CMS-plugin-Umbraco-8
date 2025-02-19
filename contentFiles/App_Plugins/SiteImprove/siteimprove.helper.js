@@ -10,7 +10,7 @@
 siteimprove.helper = {
 
     backofficeApiUrl: "/umbraco/backoffice/api/SiteimproveApi",
-    overlayUrl: "https://cdn.siteimprove.net/cms/overlay-v2.js",
+    overlayUrl: "https://cdn.siteimprove.net/cms/overlay-latest.js",
     isCreatingPage: false,
 
     /**
