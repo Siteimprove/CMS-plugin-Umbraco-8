@@ -1,5 +1,5 @@
 
-# SiteImprove Umbraco Plugin 
+# Siteimprove Umbraco Plugin 
 
 ## Install
 Install the Nuget package in your Umbraco project. The Nuget package is automatically generated on the build of this project. 
