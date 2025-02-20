@@ -9,15 +9,15 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
 	public class PreviewScriptInjectionMiddleware
 	{
 		private readonly RequestDelegate _next;
-		private readonly ISiteimproveUrlMapService _siteImproveUrlMapService;
+		private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
 		private readonly IUmbracoVersion _umbracoVersion;
 
 		public PreviewScriptInjectionMiddleware(RequestDelegate next,
-			ISiteimproveUrlMapService siteImproveUrlMapService,
+			ISiteimprovePublicUrlService siteImprovePublicUrlService,
 			IUmbracoVersion umbracoVersion)
 		{
 			_next = next;
-			_siteImproveUrlMapService = siteImproveUrlMapService;
+			_siteImprovePublicUrlService = siteImprovePublicUrlService;
 			_umbracoVersion = umbracoVersion;
 		}
 
@@ -41,7 +41,7 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
 						var pageUrl = "";
 						if (Int32.TryParse(context.Request.Query["id"], out var pageId))
 						{
-							pageUrl = _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
+							pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
 						}
 						// In the script below, we need to access the iframe that contains the preview frame
 						var script = $@"

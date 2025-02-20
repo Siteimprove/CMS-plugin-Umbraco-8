@@ -1,17 +1,17 @@
-angular.module("umbraco").controller("Siteimprove.UrlMapController", [
+angular.module("umbraco").controller("Siteimprove.PublicUrlController", [
 	"$scope",
 	"$http",
 	"notificationsService",
 	function ($scope, $http, notificationsService) {
-		$scope.urlMap = { id: null, newDomain: null };
+		$scope.publicUrl = "";
 		const backofficeApiUrl = window.siteimprove.helper.backofficeApiUrl;
 
-		$scope.saveUrlMap = function () {
+		$scope.savePublicUrl = function () {
 			$http
-				.post(`${backofficeApiUrl}/SaveUrlMap`, {
-					Id: $scope.urlMap.id,
-					NewDomain: $scope.urlMap.newDomain,
-				})
+				.post(
+					`${backofficeApiUrl}/SavePublicUrl`,
+					JSON.stringify($scope.publicUrl)
+				)
 				.then(function (resp) {
 					if (resp.data.success) {
 						notificationsService.success(resp.data.message);
@@ -22,8 +22,12 @@ angular.module("umbraco").controller("Siteimprove.UrlMapController", [
 		};
 
 		$scope.loadData = function () {
-			$http.get(`${backofficeApiUrl}/getUrlMap`).then(function (resp) {
-				$scope.urlMap = resp.data;
+			$http.get(`${backofficeApiUrl}/GetPublicUrl`).then(function (resp) {
+				if (resp.data.success) {
+					$scope.publicUrl = resp.data.publicUrl;
+				} else {
+					notificationsService.error(resp.data.message);
+				}
 			});
 		};
 		siteimprove.reloadData = $scope.loadData;

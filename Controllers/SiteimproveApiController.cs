@@ -10,26 +10,37 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
 {
 	public class SiteimproveApiController : UmbracoAuthorizedApiController
 	{
-		private readonly ISiteimproveUrlMapService _siteImproveUrlMapService;
+		private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
 		private readonly IUmbracoVersion _umbracoVersion;
 
-		public SiteimproveApiController(ISiteimproveUrlMapService siteImproveUrlMapService,
+		public SiteimproveApiController(ISiteimprovePublicUrlService siteImprovePublicUrlService,
 			IUmbracoVersion umbracoVersion)
 		{
-			_siteImproveUrlMapService = siteImproveUrlMapService;
+			_siteImprovePublicUrlService = siteImprovePublicUrlService;
 			_umbracoVersion = umbracoVersion;
 		}
 
 		[HttpGet]
-		public async Task<ActionResult> GetUrlMap(int pageId)
+		public ActionResult GetPublicUrl(int pageId)
 		{
-			var urlMap = _siteImproveUrlMapService.GetUrlMap();
-			var model = new
+			try
 			{
-				id = urlMap?.Id ?? -1,
-				newDomain = urlMap?.NewDomain ?? string.Empty
-			};
-			return Content(JsonConvert.SerializeObject(model), "application/json");
+				var model = new
+				{
+					success = true,
+					publicUrl = _siteImprovePublicUrlService.Get() ?? ""
+				};
+				return Content(JsonConvert.SerializeObject(model), "application/json");
+			}
+			catch
+			{
+				var model = new
+				{
+					success = false,
+					message = $"Error trying to retrieve public url"
+				};
+				return Content(JsonConvert.SerializeObject(model), "application/json");
+			}
 		}
 
 		[HttpGet]
@@ -39,15 +50,15 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> SaveUrlMap([FromBody] SiteimproveUrlMap saveUrlMapParams)
+		public async Task<ActionResult> SavePublicUrl([FromBody] string publicUrl)
 		{
 			try
 			{
-				var success = await _siteImproveUrlMapService.SaveUrlMap(saveUrlMapParams);
+				_siteImprovePublicUrlService.Set(publicUrl);
 				var model = new
 				{
-					success,
-					message = success ? "Saved!" : "Error"
+					success = true,
+					message = "Saved!"
 				};
 				return Content(JsonConvert.SerializeObject(model), "application/json");
 			}
@@ -65,7 +76,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
 		[HttpGet]
 		public ActionResult GetPageUrl(int pageId)
 		{
-			var url = _siteImproveUrlMapService.GetPageUrlByPageId(pageId);
+			var url = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
 			var urlWasFound = !string.IsNullOrEmpty(url);
 			var model = new
 			{

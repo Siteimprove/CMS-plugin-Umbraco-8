@@ -38,13 +38,13 @@
 		<Content Update="contentFiles\App_Plugins\Siteimprove\lang\en-us.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="contentFiles\App_Plugins\Siteimprove\views\urlMapSection.html">
+		<Content Update="contentFiles\App_Plugins\Siteimprove\views\publicUrlSection.html">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="contentFiles\App_Plugins\Siteimprove\styles\urlMapSection.css">
+		<Content Update="contentFiles\App_Plugins\Siteimprove\styles\publicUrlSection.css">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="contentFiles\App_Plugins\Siteimprove\urlMapSection.js">
+		<Content Update="contentFiles\App_Plugins\Siteimprove\publicUrlSection.js">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.controller.js">

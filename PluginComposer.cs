@@ -16,14 +16,12 @@ namespace Siteimprove.Umbraco13.Plugin
 	{
 		public void Compose(IUmbracoBuilder builder)
 		{
-			// Adds application starting notification
-			builder.AddNotificationHandler<UmbracoApplicationStartingNotification, AppStartingHandler>();
 			// Adds siteimprove services
 			builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
-			builder.Services.AddTransient<ISiteimproveUrlMapService, SiteimproveUrlMapService>();
+			builder.Services.AddTransient<ISiteimprovePublicUrlService, SiteimprovePublicUrlService>();
 			// Adds Siteimprove section on the top menu
-			builder.AddSection<SiteimproveUrlMapSection>();
-			builder.AddDashboard<SiteimproveUrlMapDashboard>();
+			builder.AddSection<SiteimprovePublicUrlSection>();
+			builder.AddDashboard<SiteimprovePublicUrlDashboard>();
 			// Adds siteimprove middleware
 			builder.Services.Configure<UmbracoPipelineOptions>(
 				options => options.AddFilter(
