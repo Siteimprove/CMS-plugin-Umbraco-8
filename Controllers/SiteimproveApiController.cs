@@ -4,7 +4,6 @@ using Umbraco.Extensions;
 using Newtonsoft.Json;
 using Umbraco.Cms.Core.Configuration;
 using Siteimprove.Umbraco13.Plugin.Services;
-using Siteimprove.Umbraco13.Plugin.Models;
 
 namespace Siteimprove.Umbraco13.Plugin.Controllers
 {

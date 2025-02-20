@@ -17,7 +17,6 @@ namespace Siteimprove.Umbraco13.Plugin
 		public void Compose(IUmbracoBuilder builder)
 		{
 			// Adds siteimprove services
-			builder.Services.AddTransient<ISiteimproveSettingsService, SiteimproveSettingsService>();
 			builder.Services.AddTransient<ISiteimprovePublicUrlService, SiteimprovePublicUrlService>();
 			// Adds Siteimprove section on the top menu
 			builder.AddSection<SiteimprovePublicUrlSection>();
