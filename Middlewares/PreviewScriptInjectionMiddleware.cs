@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-using System.Text;
-using Umbraco.Cms.Core.Configuration;
-using Siteimprove.Umbraco13.Plugin;
 using Siteimprove.Umbraco13.Plugin.Services;
+using Umbraco.Cms.Core.Configuration;
 
 namespace Siteimprove.Umbraco13.Plugin.Middlewares
 {

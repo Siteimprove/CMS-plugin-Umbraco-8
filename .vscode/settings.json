@@ -1,21 +1,40 @@
 {
 	"editor.formatOnSave": true,
-	"editor.formatOnPaste": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"[csharp]": {
-		"editor.defaultFormatter": "ms-dotnettools.csharp"
+	"eslint.enable": true,
+	"eslint.run": "onType",
+	"eslint.lintTask.enable": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
 	},
-	"[javascript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[html]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[css]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[scss]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
+	"eslint.format.enable": true,
+	"csharp.format.enable": true,
+	"cSpell.words": [
+		"authed",
+		"Backoff",
+		"Bokmål",
+		"classname",
+		"cmsplugin",
+		"datetime",
+		"Decorrelated",
+		"fancylab",
+		"fancylib",
+		"Gurli",
+		"gurlis",
+		"Millis",
+		"Nextgen",
+		"nextval",
+		"Oneplatform",
+		"Pendo",
+		"personparam",
+		"Protobuf",
+		"rownum",
+		"Siteimprove",
+		"smallbox",
+		"sysdate",
+		"Unpublish"
+	],
+	"cSpell.ignorePaths": ["launchSettings.json", "settings.json"],
+	"dotnet.defaultSolution": "Siteimprove.Umbraco13.Plugin.sln",
+	"editor.rulers": [180],
 	"editor.editorconfig.enabled": true
 }
