@@ -47,9 +47,6 @@
 		<Content Update="contentFiles\App_Plugins\Siteimprove\publicUrlSection.js">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.controller.js">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 		<Content Update="contentFiles\App_Plugins\Siteimprove\siteimprove.helper.js">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>

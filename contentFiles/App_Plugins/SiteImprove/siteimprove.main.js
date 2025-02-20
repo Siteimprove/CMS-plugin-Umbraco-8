@@ -1,22 +1,4 @@
-﻿function HookPublishButton($scope) {
-	// Hook on save and publish event
-	$scope.$on("formSubmitted", function (form) {
-		// Page has been submitted, but no id on the page. They just created a new page
-		if (form.targetScope.content.id == 0) {
-			// Published new page
-			window.siteimprove.helper.isCreatingPage = true;
-			return;
-		}
-		// Saved existing page
-		window.siteimprove.helper.handleFetchPushUrl(
-			"recheck",
-			form.targetScope.content.id,
-			true
-		);
-	});
-}
-
-function InitializeSiteimprove($scope) {
+﻿function InitializeSiteimprove($scope) {
 	$.get(
 		`${window.siteimprove.helper.backofficeApiUrl}/GetUmbracoVersion`
 	).then(function (response) {
@@ -52,12 +34,6 @@ app.config([
 					if (typeof constructor == "string") {
 						if (constructor == "Umbraco.MainController") {
 							InitializeSiteimprove(locals.$scope);
-						}
-						if (
-							constructor ==
-							"Umbraco.Editors.Content.EditController"
-						) {
-							HookPublishButton(locals.$scope);
 						}
 					}
 					return $delegate.apply(this, [].slice.call(arguments));
