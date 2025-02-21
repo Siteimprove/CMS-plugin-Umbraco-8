@@ -15,8 +15,8 @@ public class SiteimprovePublicUrlService : ISiteimprovePublicUrlService
 	public SiteimprovePublicUrlService(IUmbracoContextFactory ctxFactory,
 		IKeyValueService keyValueService)
 	{
-		this._ctxFactory = ctxFactory;
-		this._keyValueService = keyValueService;
+		_ctxFactory = ctxFactory;
+		_keyValueService = keyValueService;
 	}
 
 	public void Set(string publicUrl)
