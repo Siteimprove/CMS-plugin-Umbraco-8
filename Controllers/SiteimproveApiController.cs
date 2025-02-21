@@ -7,12 +7,12 @@ using Siteimprove.Umbraco13.Plugin.Services;
 
 namespace Siteimprove.Umbraco13.Plugin.Controllers
 {
-	public class SiteimproveApiController : UmbracoAuthorizedApiController
+	public class SiteimproveController : UmbracoAuthorizedApiController
 	{
 		private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
 		private readonly IUmbracoVersion _umbracoVersion;
 
-		public SiteimproveApiController(ISiteimprovePublicUrlService siteImprovePublicUrlService,
+		public SiteimproveController(ISiteimprovePublicUrlService siteImprovePublicUrlService,
 			IUmbracoVersion umbracoVersion)
 		{
 			_siteImprovePublicUrlService = siteImprovePublicUrlService;

@@ -8,7 +8,7 @@
 };
 
 siteimprove.helper = {
-	backofficeApiUrl: "/umbraco/backoffice/api/SiteimproveApi",
+	backofficeApiUrl: "/umbraco/backoffice/api/Siteimprove",
 	overlayUrl: "https://cdn.siteimprove.net/cms/overlay-latest.js",
 
 	/**
