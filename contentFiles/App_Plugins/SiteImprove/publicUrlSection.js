@@ -9,7 +9,7 @@ angular.module("umbraco").controller("Siteimprove.PublicUrlController", [
 		$scope.savePublicUrl = function () {
 			$http
 				.post(
-					`${backofficeApiUrl}/SavePublicUrl`,
+					`${backofficeApiUrl}/PublicUrl`,
 					JSON.stringify($scope.publicUrl)
 				)
 				.then(function (resp) {
@@ -22,7 +22,7 @@ angular.module("umbraco").controller("Siteimprove.PublicUrlController", [
 		};
 
 		$scope.loadData = function () {
-			$http.get(`${backofficeApiUrl}/GetPublicUrl`).then(function (resp) {
+			$http.get(`${backofficeApiUrl}/PublicUrl`).then(function (resp) {
 				if (resp.data.success) {
 					$scope.publicUrl = resp.data.publicUrl;
 				} else {

@@ -20,7 +20,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult GetPublicUrl(int pageId)
+		public ActionResult PublicUrl()
 		{
 			try
 			{
@@ -49,7 +49,7 @@ namespace Siteimprove.Umbraco13.Plugin.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> SavePublicUrl([FromBody] string publicUrl)
+		public ActionResult PublicUrl([FromBody] string publicUrl)
 		{
 			try
 			{
