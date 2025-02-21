@@ -40,7 +40,7 @@ public class PreviewScriptInjectionMiddleware
 				if (responseBody.Contains("</body>"))
 				{
 					var pageUrl = "";
-					if (Int32.TryParse(context.Request.Query["id"], out var pageId))
+					if (int.TryParse(context.Request.Query["id"], out var pageId))
 					{
 						pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
 					}
