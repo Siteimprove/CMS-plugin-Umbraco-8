@@ -4,48 +4,48 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Siteimprove.Umbraco13.Plugin.Services;
 using Umbraco.Cms.Core.Configuration;
 
-namespace Siteimprove.Umbraco13.Plugin.Middlewares
+namespace Siteimprove.Umbraco13.Plugin.Middlewares;
+
+public class PreviewScriptInjectionMiddleware
 {
-	public class PreviewScriptInjectionMiddleware
+	private const string OverlayUrl = "https://cdn.siteimprove.net/cms/overlay-latest.js";
+	private readonly RequestDelegate _next;
+	private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
+	private readonly IUmbracoVersion _umbracoVersion;
+
+	public PreviewScriptInjectionMiddleware(RequestDelegate next,
+		ISiteimprovePublicUrlService siteImprovePublicUrlService,
+		IUmbracoVersion umbracoVersion)
 	{
-		private const string OverlayUrl = "https://cdn.siteimprove.net/cms/overlay-latest.js";
-		private readonly RequestDelegate _next;
-		private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
-		private readonly IUmbracoVersion _umbracoVersion;
+		_next = next;
+		_siteImprovePublicUrlService = siteImprovePublicUrlService;
+		_umbracoVersion = umbracoVersion;
+	}
 
-		public PreviewScriptInjectionMiddleware(RequestDelegate next,
-			ISiteimprovePublicUrlService siteImprovePublicUrlService,
-			IUmbracoVersion umbracoVersion)
+	public async Task Invoke(HttpContext context)
+	{
+		if (context.Request.GetDisplayUrl().Contains("preview") && context.Request.Query.ContainsKey("id"))
 		{
-			_next = next;
-			_siteImprovePublicUrlService = siteImprovePublicUrlService;
-			_umbracoVersion = umbracoVersion;
-		}
+			var originalBodyStream = context.Response.Body;
 
-		public async Task Invoke(HttpContext context)
-		{
-			if (context.Request.GetDisplayUrl().Contains("preview") && context.Request.Query.ContainsKey("id"))
+			using (var newBodyStream = new MemoryStream())
 			{
-				var originalBodyStream = context.Response.Body;
+				// Sets the new stream as the response body, so we can read and modify the response body after calling _next
+				context.Response.Body = newBodyStream;
+				await _next(context);
+				// Reset the stream position to read the response body
+				newBodyStream.Seek(0, SeekOrigin.Begin);
+				var responseBody = new StreamReader(newBodyStream).ReadToEnd();
 
-				using (var newBodyStream = new MemoryStream())
+				if (responseBody.Contains("</body>"))
 				{
-					// Sets the new stream as the response body, so we can read and modify the response body after calling _next
-					context.Response.Body = newBodyStream;
-					await _next(context);
-					// Reset the stream position to read the response body
-					newBodyStream.Seek(0, SeekOrigin.Begin);
-					var responseBody = new StreamReader(newBodyStream).ReadToEnd();
-
-					if (responseBody.Contains("</body>"))
+					var pageUrl = "";
+					if (Int32.TryParse(context.Request.Query["id"], out var pageId))
 					{
-						var pageUrl = "";
-						if (Int32.TryParse(context.Request.Query["id"], out var pageId))
-						{
-							pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
-						}
-						// In the script below, we need to access the iframe that contains the preview frame
-						var script = $@"
+						pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
+					}
+					// In the script below, we need to access the iframe that contains the preview frame
+					var script = $@"
 <script>
     window.onload = function () {{
         const resultFrame = document.getElementById('resultFrame');
@@ -87,17 +87,16 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
     }};
 </script>
 ";
-						responseBody = responseBody.Replace("</body>", script + "</body>");
-					}
-					// Writes the new reponse body, with the injected script, to the original stream
-					var modifiedBytes = Encoding.UTF8.GetBytes(responseBody);
-					await originalBodyStream.WriteAsync(modifiedBytes, 0, modifiedBytes.Length);
+					responseBody = responseBody.Replace("</body>", script + "</body>");
 				}
+				// Writes the new reponse body, with the injected script, to the original stream
+				var modifiedBytes = Encoding.UTF8.GetBytes(responseBody);
+				await originalBodyStream.WriteAsync(modifiedBytes, 0, modifiedBytes.Length);
 			}
-			else
-			{
-				await _next(context);
-			}
+		}
+		else
+		{
+			await _next(context);
 		}
 	}
 }
