@@ -17,6 +17,7 @@ namespace Siteimprove.Umbraco13.Plugin.Services
 {
 	public class SiteimprovePublicUrlService : ISiteimprovePublicUrlService
 	{
+		private const string SiteimprovePublicUrlKey = "SiteimprovePublicUrl";
 		private readonly IUmbracoContextFactory _ctxFactory;
 		private readonly IKeyValueService _keyValueService;
 
@@ -29,12 +30,12 @@ namespace Siteimprove.Umbraco13.Plugin.Services
 
 		public void Set(string publicUrl)
 		{
-			_keyValueService.SetValue(Constants.SiteimprovePublicUrlKey, publicUrl);
+			_keyValueService.SetValue(SiteimprovePublicUrlKey, publicUrl);
 		}
 
 		public string? Get()
 		{
-			return _keyValueService.GetValue(Constants.SiteimprovePublicUrlKey);
+			return _keyValueService.GetValue(SiteimprovePublicUrlKey);
 		}
 
 		public string GetPageUrlByPageId(int pageId)

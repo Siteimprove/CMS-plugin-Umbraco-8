@@ -8,6 +8,7 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
 {
 	public class PreviewScriptInjectionMiddleware
 	{
+		private const string OverlayUrl = "https://cdn.siteimprove.net/cms/overlay-latest.js";
 		private readonly RequestDelegate _next;
 		private readonly ISiteimprovePublicUrlService _siteImprovePublicUrlService;
 		private readonly IUmbracoVersion _umbracoVersion;
@@ -53,7 +54,7 @@ namespace Siteimprove.Umbraco13.Plugin.Middlewares
         }}
 
         const script = document.createElement('script');
-        script.src = '{Constants.OverlayUrl}';
+        script.src = '{OverlayUrl}';
         script.onload = function () {{
             const si = resultFrame.contentWindow._si;
             if (!si) {{
