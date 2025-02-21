@@ -27,25 +27,25 @@ public class PreviewScriptInjectionMiddleware
 		if (context.Request.GetDisplayUrl().Contains("preview") && context.Request.Query.ContainsKey("id"))
 		{
 			var originalBodyStream = context.Response.Body;
+			using var newBodyStream = new MemoryStream();
 
-			using (var newBodyStream = new MemoryStream())
+			// Sets the new stream as the response body, so we can read and modify the response body after calling _next
+			context.Response.Body = newBodyStream;
+			await _next(context);
+
+			// Reset the stream position to read the response body
+			newBodyStream.Seek(0, SeekOrigin.Begin);
+			var responseBody = new StreamReader(newBodyStream).ReadToEnd();
+
+			if (responseBody.Contains("</body>"))
 			{
-				// Sets the new stream as the response body, so we can read and modify the response body after calling _next
-				context.Response.Body = newBodyStream;
-				await _next(context);
-				// Reset the stream position to read the response body
-				newBodyStream.Seek(0, SeekOrigin.Begin);
-				var responseBody = new StreamReader(newBodyStream).ReadToEnd();
-
-				if (responseBody.Contains("</body>"))
+				var pageUrl = "";
+				if (int.TryParse(context.Request.Query["id"], out var pageId))
 				{
-					var pageUrl = "";
-					if (int.TryParse(context.Request.Query["id"], out var pageId))
-					{
-						pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
-					}
-					// In the script below, we need to access the iframe that contains the preview frame
-					var script = $@"
+					pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
+				}
+				// In the script below, we need to access the iframe that contains the preview frame
+				var script = $@"
 <script>
     window.onload = function () {{
         const resultFrame = document.getElementById('resultFrame');
@@ -87,12 +87,11 @@ public class PreviewScriptInjectionMiddleware
     }};
 </script>
 ";
-					responseBody = responseBody.Replace("</body>", script + "</body>");
-				}
-				// Writes the new reponse body, with the injected script, to the original stream
-				var modifiedBytes = Encoding.UTF8.GetBytes(responseBody);
-				await originalBodyStream.WriteAsync(modifiedBytes, 0, modifiedBytes.Length);
+				responseBody = responseBody.Replace("</body>", script + "</body>");
 			}
+			// Writes the new reponse body, with the injected script, to the original stream
+			var modifiedBytes = Encoding.UTF8.GetBytes(responseBody);
+			await originalBodyStream.WriteAsync(modifiedBytes, 0, modifiedBytes.Length);
 		}
 		else
 		{
