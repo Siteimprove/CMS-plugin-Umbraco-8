@@ -1,9 +1,9 @@
 ﻿function InitializeSiteimprove($scope) {
-	$.get(
-		`${window.siteimprove.helper.backofficeApiUrl}/GetUmbracoVersion`
-	).then(function (response) {
-		initializeContentAssistant(response);
-	});
+	$.get(`${window.siteimprove.helper.backofficeApiUrl}/UmbracoVersion`).then(
+		function (response) {
+			initializeContentAssistant(response);
+		}
+	);
 	var siHelper = window.siteimprove.helper;
 	if ($scope) {
 		$scope.$on(
@@ -14,12 +14,13 @@
 }
 
 function initializeContentAssistant(umbracoVersion) {
+	const helper = window.siteimprove.helper;
 	const script = document.createElement("script");
-	script.src = window.siteimprove.helper.overlayUrl;
+	script.src = helper.overlayUrl;
 	script.onload = function () {
 		var si = window._si || [];
 		si.push(["setSession", null, null, `umbraco-${umbracoVersion}`]);
-		si.push(["clear"]);
+		helper.closeSi();
 	};
 	document.body.appendChild(script);
 }

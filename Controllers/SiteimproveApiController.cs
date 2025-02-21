@@ -41,12 +41,6 @@ public class SiteimproveController : UmbracoAuthorizedApiController
 		}
 	}
 
-	[HttpGet]
-	public ActionResult GetUmbracoVersion()
-	{
-		return Content(_umbracoVersion.Version.ToString());
-	}
-
 	[HttpPost]
 	public ActionResult PublicUrl([FromBody] string publicUrl)
 	{
@@ -72,7 +66,13 @@ public class SiteimproveController : UmbracoAuthorizedApiController
 	}
 
 	[HttpGet]
-	public ActionResult GetPageUrl(int pageId)
+	public ActionResult UmbracoVersion()
+	{
+		return Content(_umbracoVersion.Version.ToString());
+	}
+
+	[HttpGet]
+	public ActionResult PageUrl(int pageId)
 	{
 		var url = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
 		var urlWasFound = !string.IsNullOrEmpty(url);
