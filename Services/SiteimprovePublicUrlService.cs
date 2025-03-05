@@ -32,10 +32,10 @@ public class SiteimprovePublicUrlService : ISiteimprovePublicUrlService
 	{
 		using var umbracoContextReference = _ctxFactory.EnsureUmbracoContext();
 		var node = umbracoContextReference.UmbracoContext.Content?.GetById(pageId);
-		var absoluteUrl = node != null ? node.Url(mode: UrlMode.Absolute) : "";
+		var absoluteUrl = node != null ? node.Url(mode: UrlMode.Absolute) : string.Empty;
 		if (string.IsNullOrEmpty(absoluteUrl))
 		{
-			return "";
+			return string.Empty;
 		}
 
 		// Gets the public url (the new domain)
@@ -45,13 +45,16 @@ public class SiteimprovePublicUrlService : ISiteimprovePublicUrlService
 			return absoluteUrl;
 		}
 
-		Uri currentUri = new Uri(absoluteUrl);
-		var currentDomain = currentUri.GetLeftPart(UriPartial.Authority);
+		var currentUri = new Uri(absoluteUrl);
+		var newDomainUri = new Uri(newDomain.TrimEnd('/'));
 
-		newDomain = newDomain[newDomain.Length - 1] == '/' ?
-			newDomain.Substring(0, newDomain.Length - 1) : newDomain;
+		var uriBuilder = new UriBuilder(currentUri)
+		{
+			Scheme = newDomainUri.Scheme,
+			Host = newDomainUri.Host,
+			Port = newDomainUri.IsDefaultPort ? -1 : newDomainUri.Port
+		};
 
-		var url = absoluteUrl.Replace(currentDomain, newDomain);
-		return url;
+		return uriBuilder.ToString();
 	}
 }

@@ -1,4 +1,4 @@
-﻿function InitializeSiteimprove($scope) {
+﻿function initializeSiteimprove($scope) {
 	$.get(`${window.siteimprove.helper.backofficeApiUrl}/UmbracoVersion`).then(
 		function (response) {
 			initializeContentAssistant(response);
@@ -20,7 +20,7 @@ function initializeContentAssistant(umbracoVersion) {
 	script.onload = function () {
 		var si = window._si || [];
 		si.push(["setSession", null, null, `umbraco-${umbracoVersion}`]);
-		helper.closeSi();
+		helper.clearPage();
 	};
 	document.body.appendChild(script);
 }
@@ -34,7 +34,7 @@ app.config([
 				return function (constructor, locals) {
 					if (typeof constructor == "string") {
 						if (constructor == "Umbraco.MainController") {
-							InitializeSiteimprove(locals.$scope);
+							initializeSiteimprove(locals.$scope);
 						}
 					}
 					return $delegate.apply(this, [].slice.call(arguments));

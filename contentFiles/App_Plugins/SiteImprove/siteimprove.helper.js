@@ -19,7 +19,7 @@ siteimprove.helper = {
 	backofficeApiUrl: "/umbraco/backoffice/api/Siteimprove",
 	overlayUrl: "https://cdn.siteimprove.net/cms/overlay-latest.js",
 
-	closeSi: function () {
+	clearPage: function () {
 		pushSi("clear", "");
 	},
 
@@ -38,20 +38,19 @@ siteimprove.helper = {
 	/**
 	 * Requests pageUrl from backoffice and send to SI
 	 */
-	handleFetchPushUrl: function (pageId) {
+	changePage: function (pageId) {
 		this.getPageUrl(pageId)
 			.then(function (response) {
 				if (response.success) {
 					// When receive the url => send off to _si
 					pushSi("input", response.url);
 				} else {
-					siteimprove.helper.closeSi();
+					siteimprove.helper.clearPage();
 				}
 			})
 			.fail(function (error) {
-				if (siteimprove.log)
-					console.log("handleFetchPushUrl error:", error);
-				siteimprove.helper.closeSi();
+				if (siteimprove.log) console.log("changePage error:", error);
+				siteimprove.helper.clearPage();
 			});
 	},
 
@@ -67,11 +66,11 @@ siteimprove.helper = {
 					!current.params.hasOwnProperty("create")) &&
 				next.params.id
 			) {
-				siteimprove.helper.handleFetchPushUrl(next.params.id);
+				siteimprove.helper.changePage(next.params.id);
 			}
 		} else {
 			// When not in content tree, we clear content assistant
-			siteimprove.helper.closeSi();
+			siteimprove.helper.clearPage();
 		}
 	},
 };
