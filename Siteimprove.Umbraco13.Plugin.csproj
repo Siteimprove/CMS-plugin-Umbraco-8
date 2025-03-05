@@ -8,7 +8,7 @@
 		<FileVersion>3.0.0</FileVersion>
 		<ContentTargetFolders>.</ContentTargetFolders>
 		<Product>Siteimprove</Product>
-		<PackageId>Siteimprove</PackageId>
+		<PackageId>SiteimproveUmbracoPlugin</PackageId>
 		<Title>Siteimprove Umbraco Plugin</Title>
 		<Description>Plugin tool for Umbraco</Description>
 		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin</PackageTags>

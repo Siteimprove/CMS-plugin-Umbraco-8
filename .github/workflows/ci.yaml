@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  VERSION: 1.0.${{ github.run_number }}.${{ github.run_attempt }}
+  IS_PRERELEASE: false
+
+jobs:
+  deploy-nuget:
+    name: Build, upload artifact and deploy
+    runs-on: [self-hosted, evryfs, X64, Linux]
+    env:
+      DOTNET_INSTALL_DIR: "./.dotnet"
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build .Net
+        run: dotnet build -c Release
+
+      - name: Create Github release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          prerelease: ${{ env.IS_PRERELEASE }}
+          release_name: ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+
+      - name: Get NuGet package name
+        run: echo "PACKAGE_NAME=$(basename ./bin/Release/*.nupkg)" >> $GITHUB_ENV
+
+      - name: Upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/Release/${{ env.PACKAGE_NAME }}
+          asset_name: ${{ env.PACKAGE_NAME }}
+          asset_content_type: application/octet-stream
+
+      # - name: Push NuGet package to NuGet.org
+      #   run: dotnet nuget push ./bin/Release/*.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+
