@@ -50,4 +50,6 @@ jobs:
                   asset_name: ${{ env.PACKAGE_NAME }}
                   asset_content_type: application/octet-stream
 
+            # - name: Push NuGet package to NuGet.org
+            #   run: dotnet nuget push ./bin/Release/*.nupkg --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
