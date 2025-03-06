@@ -13,7 +13,7 @@ env:
 jobs:
     deploy-nuget:
         name: Build, upload artifact and deploy
-        runs-on: [self-hosted, summerwind, X64, Linux, core-aws-euc1]
+        runs-on: ubuntu-latest
         env:
             DOTNET_INSTALL_DIR: "./.dotnet"
         steps:
