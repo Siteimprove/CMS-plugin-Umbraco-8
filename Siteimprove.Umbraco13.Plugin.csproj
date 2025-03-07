@@ -11,7 +11,7 @@
 		<PackageProjectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
 		<ContentTargetFolders>.</ContentTargetFolders>
-		<!-- <GeneratePackageOnBuild>True</GeneratePackageOnBuild> -->
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
@@ -22,7 +22,6 @@
 
 	<ItemGroup>
 		<Content Include="contentFiles\App_Plugins\Siteimprove\**" ExcludeFromSingleFile="true" CopyToPublishDirectory="Always" />
-		<Content Include="contentFiles\App_Plugins\Siteimprove\**" Pack="true" PackagePath="contentFiles/" />
 		<None Include="buildTransitive\**" Pack="true" PackagePath="buildTransitive" />
 		<None Include="README.md">
 			<Pack>true</Pack>
