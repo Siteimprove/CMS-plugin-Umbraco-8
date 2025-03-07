@@ -19,7 +19,7 @@ function initializeContentAssistant(umbracoVersion) {
 	script.src = helper.overlayUrl;
 	script.onload = function () {
 		var si = window._si || [];
-		si.push(["setSession", null, null, `umbraco-${umbracoVersion}`]);
+		si.push(["setSession", null, null, `Umbraco ${umbracoVersion}`]);
 		helper.clearPage();
 	};
 	document.body.appendChild(script);

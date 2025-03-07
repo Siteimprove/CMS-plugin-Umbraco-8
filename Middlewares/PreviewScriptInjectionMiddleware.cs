@@ -61,7 +61,7 @@ public class PreviewScriptInjectionMiddleware
                 console.log(""Content Assistant did not load correctly."");
                 return;
             }}
-            si.push(['setSession', null, null, 'umbraco-{_umbracoVersion.Version}']);
+            si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
             si.push(['input', '{pageUrl}']);
             si.push(['registerPrepublishCallback', onPrepublish]);
             si.push(['onHighlight', onHighlight]);

@@ -3,21 +3,17 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyVersion>13.0.0</AssemblyVersion>
-		<version>3.0.0</version>
-		<FileVersion>3.0.0</FileVersion>
-		<ContentTargetFolders>.</ContentTargetFolders>
-		<Product>Siteimprove</Product>
-		<PackageId>SiteimproveUmbracoPlugin</PackageId>
-		<Title>Siteimprove Umbraco Plugin</Title>
+		<!-- <PackageId>Siteimprove.Umbraco13.Plugin</PackageId> -->
+		<version>0.0.0</version>
 		<Description>Plugin tool for Umbraco</Description>
+		<Product>Siteimprove Content Assistant</Product>
 		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin</PackageTags>
-		<Authors>Siteimprove</Authors>
-		<Copyright>© Siteimprove</Copyright>
+		<Copyright>Copyright (c) Siteimprove A/S</Copyright>
 		<PackageProjectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
+		<ContentTargetFolders>.</ContentTargetFolders>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+		<!-- <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent> -->
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
