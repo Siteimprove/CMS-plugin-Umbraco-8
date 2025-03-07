@@ -41,7 +41,8 @@ jobs:
                   tag_name: ${{ env.LONG_VERSION }}
 
             - name: Get NuGet package name
-              run: echo "PACKAGE_NAME=$(basename ./bin/Release/*.nupkg)" >> $GITHUB_ENV
+              id: get_package_name
+              run: echo "PACKAGE_NAME=$(Get-ChildItem -Path .\bin\Release\*.nupkg | Select-Object -ExpandProperty Name)" >> $env:GITHUB_OUTPUT
 
             - name: Upload artifact
               uses: actions/upload-release-asset@v1
@@ -49,8 +50,8 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./bin/Release/${{ env.PACKAGE_NAME }}
-                  asset_name: ${{ env.PACKAGE_NAME }}
+                  asset_path: ./bin/Release/${{ steps.get_package_name.outputs.PACKAGE_NAME }}
+                  asset_name: ${{ steps.get_package_name.outputs.PACKAGE_NAME }}
                   asset_content_type: application/octet-stream
 
             # - name: Push NuGet package to NuGet.org
