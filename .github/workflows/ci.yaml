@@ -24,7 +24,10 @@ jobs:
               with:
                   dotnet-version: 8.0.x
 
-            - name: Build and pack NuGet package
+            - name: Build .NET
+              run: dotnet build
+
+            - name: Pack NuGet package
               run: dotnet pack -c Release -p:Version="${{ env.VERSION }}" -p:InformationalVersion="${{ env.LONG_VERSION }}"
 
             - name: Create Github release
