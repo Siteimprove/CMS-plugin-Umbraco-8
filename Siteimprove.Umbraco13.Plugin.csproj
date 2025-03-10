@@ -6,7 +6,7 @@
 		<version>0.0.0</version>
 		<Description>Plugin tool for Umbraco</Description>
 		<Product>Siteimprove Content Assistant</Product>
-		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin</PackageTags>
+		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin umbraco-marketplace</PackageTags>
 		<Copyright>Copyright (c) Siteimprove A/S</Copyright>
 		<PackageProjectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
