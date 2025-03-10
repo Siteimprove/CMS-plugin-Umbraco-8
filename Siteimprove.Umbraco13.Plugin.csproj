@@ -12,6 +12,7 @@
 		<RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
 		<ContentTargetFolders>.</ContentTargetFolders>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
