@@ -24,9 +24,6 @@ jobs:
               with:
                   dotnet-version: 8.0.x
 
-            - name: Build .NET
-              run: dotnet build -c Release -p:GeneratePackageOnBuild=false
-
             - name: Pack NuGet package
               run: dotnet pack -c Release -p:Version="${{ env.VERSION }}" -p:InformationalVersion="${{ env.LONG_VERSION }}"
 
@@ -55,5 +52,6 @@ jobs:
                   asset_content_type: application/octet-stream
 
             - name: Push NuGet package to NuGet.org
+              if: github.ref_name == 'master'
               run: dotnet nuget push ./bin/Release/${{ steps.get_package_name.outputs.PACKAGE_NAME }} --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
