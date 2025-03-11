@@ -12,7 +12,7 @@ env:
 jobs:
     deploy-nuget:
         name: Build, upload artifact and deploy
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         env:
             DOTNET_INSTALL_DIR: "./.dotnet"
         steps:
@@ -40,7 +40,7 @@ jobs:
 
             - name: Get NuGet package name
               id: get_package_name
-              run: echo "PACKAGE_NAME=$(Get-ChildItem -Path .\bin\Release\*.nupkg | Select-Object -ExpandProperty Name)" >> $env:GITHUB_OUTPUT
+              run: echo "PACKAGE_NAME=$(basename $(ls ./bin/Release/*.nupkg))" >> $GITHUB_ENV
 
             - name: Upload artifact
               uses: actions/upload-release-asset@v1
@@ -48,11 +48,10 @@ jobs:
                   GITHUB_TOKEN: ${{ github.token }}
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
-                  asset_path: ./bin/Release/${{ steps.get_package_name.outputs.PACKAGE_NAME }}
-                  asset_name: ${{ steps.get_package_name.outputs.PACKAGE_NAME }}
+                  asset_path: ./bin/Release/${{ env.PACKAGE_NAME }}
+                  asset_name: ${{ env.PACKAGE_NAME }}
                   asset_content_type: application/octet-stream
 
             - name: Push NuGet package to NuGet.org
               if: github.ref_name == 'master'
-              run: dotnet nuget push ./bin/Release/${{ steps.get_package_name.outputs.PACKAGE_NAME }} --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-
+              run: dotnet nuget push ./bin/Release/${{ env.PACKAGE_NAME }} --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
