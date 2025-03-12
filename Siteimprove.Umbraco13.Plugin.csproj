@@ -51,4 +51,24 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+
+	<!-- Copies the App_Plugins folder to the solution directory when an Umbraco site project references the plugin project.  
+     This ensures that the necessary plugin files are available in the site project.  
+     Note: This only works correctly if the solution directory is the same as the Umbraco site project's root directory.  
+     Additionally, the copy operation is skipped if the plugin project is built independently (without the full solution). -->
+	<PropertyGroup>
+		<NormalizedSolutionDir>$([System.String]::Copy($(SolutionDir)).TrimEnd('\'))</NormalizedSolutionDir>
+	</PropertyGroup>
+	<Target Name="CopySIFiles" BeforeTargets="Build" Condition="$(NormalizedSolutionDir) != $(MSBuildProjectDirectory)">
+		<ItemGroup>
+			<PluginFiles Include="$(MSBuildProjectDirectory)/contentFiles/App_Plugins/**/*.*" />
+		</ItemGroup>
+		<Message Text="Copying Siteimprove plugin files" Importance="high" />
+		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(SolutionDir)App_Plugins/%(RecursiveDir)" />
+	</Target>
+
+	<Target Name="ClearSIFiles" BeforeTargets="Clean" Condition="$(NormalizedSolutionDir) != $(MSBuildProjectDirectory)">
+		<Message Text="Removing Siteimprove plugin files" Importance="high" />
+		<RemoveDir Directories="$(SolutionDir)App_Plugins/Siteimprove" Condition="Exists('$(SolutionDir)App_Plugins/Siteimprove')" />
+	</Target>
 </Project>
