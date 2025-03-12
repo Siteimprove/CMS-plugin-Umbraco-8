@@ -13,10 +13,11 @@
 		<ContentTargetFolders>.</ContentTargetFolders>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="13.3.1" />
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="13.7.1" />
 		<PackageReference Include="Umbraco.Cms.Web.Website" Version="13.3.0" />
 	</ItemGroup>
 
