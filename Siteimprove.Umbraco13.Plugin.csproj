@@ -3,7 +3,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<version>0.0.0</version>
+		<Version>0.0.0</Version>
 		<Description>Seamless integration of Siteimprove's insights directly into Umbraco.</Description>
 		<Product>Siteimprove Content Assistant</Product>
 		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin umbraco-marketplace</PackageTags>
