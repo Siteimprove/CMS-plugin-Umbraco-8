@@ -13,6 +13,7 @@
 		<ContentTargetFolders>.</ContentTargetFolders>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 	</PropertyGroup>
 
