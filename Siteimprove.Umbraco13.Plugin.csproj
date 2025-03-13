@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<version>0.0.0</version>
-		<Description>Seamless integration of Siteimprove's insights directly into Umbraco. Transform your content creation process with the Siteimprove Content Assistant, optimizing your content even before publication. Enhance productivity, improve quality, and ensure it meets the highest standards of compliance.</Description>
+		<Description>Seamless integration of Siteimprove's insights directly into Umbraco.</Description>
 		<Product>Siteimprove Content Assistant</Product>
 		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin umbraco-marketplace</PackageTags>
 		<Copyright>Copyright (c) Siteimprove A/S</Copyright>
@@ -14,7 +14,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<requireLicenseAcceptance>True</requireLicenseAcceptance>
+		<RequireLicenseAcceptance>True</RequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup>
