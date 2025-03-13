@@ -7,7 +7,7 @@ on:
         branches: ["master"]
 
 env:
-    VERSION: 0.1.${{ github.run_number }}.${{ github.run_attempt }}
+    VERSION: 0.1.${{ github.run_number }}.${{ github.run_attempt }}-beta
 
 jobs:
     deploy-nuget:
