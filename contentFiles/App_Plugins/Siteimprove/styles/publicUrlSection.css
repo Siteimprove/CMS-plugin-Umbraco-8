@@ -1,0 +1,39 @@
+.content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 2.5rem;
+	margin-top: 6rem;
+	border-radius: 10px;
+	box-shadow: 2px 2px 6px #80808094;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+form[name="public-url-form"] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 1.5rem 0 1rem 0;
+}
+input[name="public-url-input"] {
+	margin: 0;
+	margin-right: 1rem;
+	width: 25rem;
+	border-radius: 8px;
+	padding: 0.8rem;
+}
+.title {
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 0;
+}
+.description {
+	max-width: 45rem;
+	text-align: justify;
+	margin-top: 0.5rem;
+	line-height: 1.6;
+	font-size: 16px;
+	color: #333;
+}

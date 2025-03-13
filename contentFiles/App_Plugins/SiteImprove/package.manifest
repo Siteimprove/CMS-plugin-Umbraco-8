@@ -1,0 +1,10 @@
+{
+  "javascript": [
+    "~/App_Plugins/Siteimprove/siteimprove.helper.js",
+    "~/App_Plugins/Siteimprove/siteimprove.main.js",
+    "~/App_Plugins/Siteimprove/publicUrlSection.js"
+  ],
+  "css": [
+    "~/App_Plugins/Siteimprove/styles/publicUrlSection.css"
+  ]
+}

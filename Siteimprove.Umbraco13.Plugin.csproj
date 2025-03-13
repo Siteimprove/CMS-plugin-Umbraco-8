@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>0.0.0</Version>
+		<Description>Seamless integration of Siteimprove's insights directly into Umbraco.</Description>
+		<Product>Siteimprove Content Assistant</Product>
+		<PackageTags>Siteimprove umbraco-v13 Umbraco Plugin umbraco-marketplace</PackageTags>
+		<Copyright>Copyright (c) Siteimprove A/S</Copyright>
+		<PackageProjectUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Siteimprove/CMS-plugin-Umbraco-13</RepositoryUrl>
+		<ContentTargetFolders>.</ContentTargetFolders>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RequireLicenseAcceptance>True</RequireLicenseAcceptance>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="13.7.1" />
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="13.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="contentFiles/App_Plugins/Siteimprove/**" Pack="true" ExcludeFromSingleFile="true" CopyToPublishDirectory="Always" />
+		<None Include="buildTransitive/**" Pack="true" PackagePath="buildTransitive" />
+		<None Include="README.md">
+			<Pack>true</Pack>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/lang/en-us.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/views/publicUrlSection.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/styles/publicUrlSection.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/publicUrlSection.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/siteimprove.helper.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/siteimprove.main.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="contentFiles/App_Plugins/Siteimprove/package.manifest">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<!-- Copies the App_Plugins folder to the solution directory when an Umbraco site project references the plugin project.
+     This ensures that the necessary plugin files are available in the site project.
+     Note: This only works correctly if the solution directory is the same as the Umbraco site project's root directory.
+     Additionally, the copy operation is skipped if the plugin project is built independently (without the full solution). -->
+	<PropertyGroup>
+		<NormalizedSolutionDir>$([System.String]::Copy($(SolutionDir)).TrimEnd('\'))</NormalizedSolutionDir>
+	</PropertyGroup>
+	<Target Name="CopySIFiles" BeforeTargets="Build" Condition="$(NormalizedSolutionDir) != $(MSBuildProjectDirectory)">
+		<ItemGroup>
+			<PluginFiles Include="$(MSBuildProjectDirectory)/contentFiles/App_Plugins/**/*.*" />
+		</ItemGroup>
+		<Message Text="Copying Siteimprove plugin files" Importance="high" />
+		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(SolutionDir)App_Plugins/%(RecursiveDir)" />
+	</Target>
+
+	<Target Name="ClearSIFiles" BeforeTargets="Clean" Condition="$(NormalizedSolutionDir) != $(MSBuildProjectDirectory)">
+		<Message Text="Removing Siteimprove plugin files" Importance="high" />
+		<RemoveDir Directories="$(SolutionDir)App_Plugins/Siteimprove" Condition="Exists('$(SolutionDir)App_Plugins/Siteimprove')" />
+	</Target>
+</Project>

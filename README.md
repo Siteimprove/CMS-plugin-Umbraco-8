@@ -1,48 +1,27 @@
-﻿
-# SiteImprove Umbraco Plugin 
+# Siteimprove Content Assistant plugin for Umbraco
 
 ## Install
-Install either through the CMS or install the nuget both are located under /build/Package
+
+Install the NuGet package in your Umbraco project. The NuGet package is automatically generated on the build of this project.
 
 ## Configuration in Umbraco
-The settings are located on the Siteimprove content tab
-### Token
-Required to authenticate communication between the add-on and Siteimprove.
-### Recrawl id's
-Specify all the id's that will trigger a recrawl. Comma separate the id's
-### Modify the page URL by rewriting or removing a part of the Umbraco URL
-Modify the page URL that is sent to Siteimprove, by replacing a part of the Umbraco URL. If the new part is empty, the current part will be removed.
 
-Example:
+There's a Siteimprove section in the main menu, added by this plugin, where you can define a public URL. To display this section you will need allow it, going to the `Users` tab, selecting the option to edit section, and then adding `Siteimprove`. After that, you will need to logout and login again, and then you will be able to see the new section.
 
-```
-Umbraco URL: https://www.website.com/about-us
-Current URL part: about
-New URL part: custom
-Page URL that will be sent to Siteimprove: https://www.website.com/custom-us
-```
+The purpose of this section is to define a new domain, when necessary, to replace the Umbraco domain. Then the URL with the new domain will be the one that will be passed to the `Siteimprove Content Assistant`. It can also be used for testing purpose.
 
-The URL modification is inherited to all the descendant nodes without URL modifications.
-
-The URL modification overrules any other modification from an ancestor node.
-
+For example, if you defined the public URL value as https://yourdomain and the URL of content page you are accessing now is https://umbracodomain/about/, the final URL that will be passed to the `input` function is https://yourdomain/about/.
 
 ## Run on local machine
-Reference class library to Umbraco project 
 
-Add the following to Post-Build event command line:
-``` shell
-xcopy /I /E /Y "$(ProjectDir)bin\App_Plugins" "$(ProjectDir)App_Plugins"
-```
+Reference class library to Umbraco project, or install the NuGet package that is generated when building this project.
 
-## Check logs
-Start console output after document ready
-```js
-siteimprove.log = true
-```
+## How the plugin works?
 
-## Build the Umbraco package
-Run the build.bat
+As soon as you login to Umbraco, you will be able to see the `Siteimprove Content Assistant` icon on the right (or left, depending on your settings).
 
-## TODO
- - Upload package to some nuget repository
+If you click on it you will open the side panel, but will only be able to see it's default page. To see some data, you will need to select some content.
+
+The URL of the selected content will be sent to the `Siteimprove Content Assistant`, and if the selected site/page is connected with Siteimprove environment, then you will be able to see some data related to that specific page on the `Live` tab.
+
+You can also go the the preview of a specific page and then you will be able to run a prepublish check.

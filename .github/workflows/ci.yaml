@@ -1,0 +1,57 @@
+name: CI
+
+on:
+    push:
+        branches: ["master"]
+    pull_request:
+        branches: ["master"]
+
+env:
+    VERSION: 0.1.${{ github.run_number }}.${{ github.run_attempt }}-beta
+
+jobs:
+    deploy-nuget:
+        name: Build, upload artifact and deploy
+        runs-on: ubuntu-latest
+        env:
+            DOTNET_INSTALL_DIR: "./.dotnet"
+        steps:
+            - uses: actions/checkout@v3
+            - uses: ./.github/actions/env-setup
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: 8.0.x
+
+            # The NuGet package is generated on the build
+            - name: Build .NET
+              run: dotnet build -c Release -p:Version="${{ env.VERSION }}" -p:InformationalVersion="${{ env.LONG_VERSION }}"
+
+            - name: Create Github release
+              uses: actions/create-release@v1
+              id: create_release
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  prerelease: ${{ env.IS_PRERELEASE }}
+                  release_name: ${{ env.LONG_VERSION }}
+                  tag_name: ${{ env.LONG_VERSION }}
+
+            - name: Get NuGet package name
+              id: get_package_name
+              run: echo "PACKAGE_NAME=$(basename $(ls ./bin/Release/*.nupkg))" >> $GITHUB_ENV
+
+            - name: Upload artifact
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./bin/Release/${{ env.PACKAGE_NAME }}
+                  asset_name: ${{ env.PACKAGE_NAME }}
+                  asset_content_type: application/octet-stream
+
+            - name: Push NuGet package to NuGet.org
+              if: github.ref_name == 'master'
+              run: dotnet nuget push ./bin/Release/${{ env.PACKAGE_NAME }} --api-key ${{ secrets.NUGET_ORG_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

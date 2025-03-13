@@ -1,0 +1,20 @@
+name: Environment variable setup
+
+runs:
+    using: composite
+    steps:
+        - name: Generate long version number for master branch
+          if: github.ref_name == 'master'
+          shell: bash
+          run: |
+              echo "LONG_VERSION=${VERSION}" >> $GITHUB_ENV
+              echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+
+        - name: Generate long version number for non-master branch
+          if: github.ref_name != 'master'
+          env:
+              GIT_BRANCH: ${{ github.head_ref || github.ref_name }}
+          shell: bash
+          run: |
+              echo "LONG_VERSION=${VERSION}_${GIT_BRANCH}" >> $GITHUB_ENV
+              echo "IS_PRERELEASE=true" >> $GITHUB_ENV
