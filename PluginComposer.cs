@@ -18,7 +18,6 @@ public class PluginComposer : IComposer
 		builder.Services.AddTransient<ISiteimprovePublicUrlService, SiteimprovePublicUrlService>();
 		// Adds Siteimprove section on the top menu
 		builder.AddSection<SiteimprovePublicUrlSection>();
-		builder.AddDashboard<SiteimprovePublicUrlDashboard>();
 		// Adds siteimprove middleware
 		builder.Services.Configure<UmbracoPipelineOptions>(
 			options => options.AddFilter(
@@ -27,17 +26,6 @@ public class PluginComposer : IComposer
 					postPipeline: app => app.UseMiddleware<PreviewScriptInjectionMiddleware>()
 		)));
 	}
-}
-
-public class SiteimprovePublicUrlDashboard : IDashboard
-{
-	public string[] Sections => new[] { "siteimprovePublicUrlSection" };
-
-	public IAccessRule[] AccessRules => new[] { new AccessRule { Type = AccessRuleType.Grant, Value = "10" } };
-
-	public string? Alias => "siteimprovePublicUrlDashboard";
-
-	public string? View => "/App_Plugins/Siteimprove/views/publicUrlSection.html";
 }
 
 public class SiteimprovePublicUrlSection : ISection

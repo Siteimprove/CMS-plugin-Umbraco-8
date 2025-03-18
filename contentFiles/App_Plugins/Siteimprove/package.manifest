@@ -1,4 +1,15 @@
 {
+  "dashboards":  [
+    {
+	  "alias": "siteimprovePublicUrlDashboard",
+	  "view": "/App_Plugins/Siteimprove/views/publicUrlSection.html",
+	  "sections": [ "siteimprovePublicUrlSection" ],
+	  "weight": 0,
+	  "access": [
+	    { "grant": "admin" }
+	  ]
+	}
+  ],
   "javascript": [
     "~/App_Plugins/Siteimprove/siteimprove.helper.js",
     "~/App_Plugins/Siteimprove/siteimprove.main.js",
