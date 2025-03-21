@@ -48,25 +48,48 @@ public class PreviewScriptInjectionMiddleware
 				var script = $@"
 <script>
     window.onload = function () {{
-        const resultFrame = document.getElementById('resultFrame');
-        if (!resultFrame || !resultFrame.contentDocument) {{
-            console.error(""No frame found. Content Assistant will not be loaded."");
-        }}
 
-        const script = document.createElement('script');
-        script.src = '{OverlayUrl}';
-        script.onload = function () {{
-            const si = resultFrame.contentWindow._si;
-            if (!si) {{
-                console.log(""Content Assistant did not load correctly."");
-                return;
-            }}
-            si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
-            si.push(['input', '{pageUrl}']);
-            si.push(['registerPrepublishCallback', onPrepublish]);
-            si.push(['onHighlight', onHighlight]);
-        }};
-        resultFrame.contentDocument.body.appendChild(script);
+		observeIframe();
+
+		function observeIframe() {{
+			const observer = new MutationObserver((mutations, obs) => {{
+				const resultFrame = document.getElementById(""resultFrame"");
+				if (resultFrame) {{
+					obs.disconnect();
+					handleIframe(resultFrame);
+				}}
+			}});
+
+			observer.observe(document.body, {{ childList: true, subtree: true }});
+		}}
+
+		function handleIframe(resultFrame) {{
+			if (resultFrame.contentDocument && resultFrame.contentDocument.readyState === ""complete"" && resultFrame.contentWindow.location.href !== ""about:blank"") {{
+				loadSmallbox(resultFrame);
+			}} else {{
+				resultFrame.addEventListener(""load"", function () {{
+					loadSmallbox(resultFrame);
+				}});
+			}}
+		}}
+
+		function loadSmallbox(resultFrame) {{
+			console.log(""Loading Siteimprove Content Assistant..."");
+			const script = document.createElement('script');
+			script.src = '{OverlayUrl}';
+			script.onload = function () {{
+				const si = resultFrame.contentWindow._si;
+				if (!si) {{
+					console.log(""Content Assistant did not load correctly."");
+					return;
+				}}
+				si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
+				si.push(['input', '{pageUrl}']);
+				si.push(['registerPrepublishCallback', onPrepublish]);
+				si.push(['onHighlight', onHighlight]);
+			}};
+			resultFrame.contentDocument.body.appendChild(script);
+		}}
 
         function onPrepublish() {{
             return [
