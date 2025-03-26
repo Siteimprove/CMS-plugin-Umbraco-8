@@ -48,66 +48,68 @@ public class PreviewScriptInjectionMiddleware
 				var script = $@"
 <script>
     window.onload = function () {{
-
 		observeIframe();
-
-		function observeIframe() {{
-			const observer = new MutationObserver((mutations, obs) => {{
-				const resultFrame = document.getElementById(""resultFrame"");
-				if (resultFrame) {{
-					obs.disconnect();
-					handleIframe(resultFrame);
-				}}
-			}});
-
-			observer.observe(document.body, {{ childList: true, subtree: true }});
-		}}
-
-		function handleIframe(resultFrame) {{
-			if (resultFrame.contentDocument && resultFrame.contentDocument.readyState === ""complete"" && resultFrame.contentWindow.location.href !== ""about:blank"") {{
-				loadSmallbox(resultFrame);
-			}} else {{
-				resultFrame.addEventListener(""load"", function () {{
-					loadSmallbox(resultFrame);
-				}});
-			}}
-		}}
-
-		function loadSmallbox(resultFrame) {{
-			console.log(""Loading Siteimprove Content Assistant..."");
-			const script = document.createElement('script');
-			script.src = '{OverlayUrl}';
-			script.onload = function () {{
-				const si = resultFrame.contentWindow._si;
-				if (!si) {{
-					console.log(""Content Assistant did not load correctly."");
-					return;
-				}}
-				si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
-				si.push(['input', '{pageUrl}']);
-				si.push(['registerPrepublishCallback', onPrepublish]);
-				si.push(['onHighlight', onHighlight]);
-			}};
-			resultFrame.contentDocument.body.appendChild(script);
-		}}
-
-        function onPrepublish() {{
-            return [
-                resultFrame.contentDocument,
-                () => console.log('FlatOM pull upload finished.'),
-                'Full page'
-            ];
-        }}
-
-        function onHighlight(highlightInfo) {{
-            const si = resultFrame.contentWindow._si;
-            if (!si) {{
-                console.log(""Content Assistant did not load correctly."");
-                return;
-            }}
-            si.push(['applyDefaultHighlighting', highlightInfo, resultFrame.contentDocument]);
-        }}
     }};
+
+	function observeIframe() {{
+		let resultFrame = document.getElementById(""resultFrame"");
+		if (resultFrame) handleIframe(resultFrame);
+
+		const observer = new MutationObserver((mutations, obs) => {{
+			resultFrame = document.getElementById(""resultFrame"");
+			if (resultFrame) {{
+				obs.disconnect();
+				handleIframe(resultFrame);
+			}}
+		}});
+		const previewIFrame = document.querySelector(""preview-i-frame"");
+		observer.observe(previewIFrame ? previewIFrame : document.body, {{ childList: true, subtree: true }});
+	}}
+
+	function handleIframe(resultFrame) {{
+		if (resultFrame.contentDocument && resultFrame.contentDocument.readyState === ""complete"" && resultFrame.contentWindow.location.href !== ""about:blank"") {{
+			loadSmallbox(resultFrame);
+		}} else {{
+			resultFrame.addEventListener(""load"", function () {{
+				loadSmallbox(resultFrame);
+			}});
+		}}
+	}}
+
+	function loadSmallbox(resultFrame) {{
+		console.log(""Loading Siteimprove Content Assistant..."");
+		const script = document.createElement('script');
+		script.src = '{OverlayUrl}';
+		script.onload = function () {{
+			const si = resultFrame.contentWindow._si;
+			if (!si) {{
+				console.log(""Content Assistant did not load correctly."");
+				return;
+			}}
+			si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
+			si.push(['input', '{pageUrl}']);
+			si.push(['registerPrepublishCallback', onPrepublish]);
+			si.push(['onHighlight', onHighlight]);
+		}};
+		resultFrame.contentDocument.body.appendChild(script);
+	}}
+
+	function onPrepublish() {{
+		return [
+			resultFrame.contentDocument,
+			() => console.log('FlatOM pull upload finished.'),
+			'Full page'
+		];
+	}}
+
+	function onHighlight(highlightInfo) {{
+		const si = resultFrame.contentWindow._si;
+		if (!si) {{
+			console.log(""Content Assistant did not load correctly."");
+			return;
+		}}
+		si.push(['applyDefaultHighlighting', highlightInfo, resultFrame.contentDocument]);
+	}}
 </script>
 ";
 				responseBody = responseBody.Replace("</body>", script + "</body>");
