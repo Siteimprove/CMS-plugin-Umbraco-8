@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using System.Web;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 using Siteimprove.Umbraco13.Plugin.Services;
 using Umbraco.Cms.Core.Configuration;
 
@@ -24,7 +24,12 @@ public class PreviewScriptInjectionMiddleware
 
 	public async Task Invoke(HttpContext context)
 	{
-		if (context.Request.GetDisplayUrl().Contains("preview") && context.Request.Query.ContainsKey("id"))
+		var acceptHtml = context.Request.Headers["Accept"]
+			.Any(v => v.Contains("text/html", StringComparison.OrdinalIgnoreCase));
+
+		// Check if the request is for a preview, if it accepts HTML (which indicates that it is the request for the
+		// content of the preview page), and if the request is made from an iframe (where the content of the preview page is rendered)
+		if (context.Request.Cookies["UMB_PREVIEW"] == "preview" && acceptHtml && context.Request.Headers["sec-fetch-dest"].Contains("iframe"))
 		{
 			var originalBodyStream = context.Response.Body;
 			using var newBodyStream = new MemoryStream();
@@ -37,53 +42,44 @@ public class PreviewScriptInjectionMiddleware
 			newBodyStream.Seek(0, SeekOrigin.Begin);
 			var responseBody = new StreamReader(newBodyStream).ReadToEnd();
 
+			// If the response body contains the closing </body> tag, it indicates that it is the HTML of the page
+			// and then we can inject our script
 			if (responseBody.Contains("</body>"))
 			{
 				var pageUrl = "";
-				if (int.TryParse(context.Request.Query["id"], out var pageId))
+
+				var referer = context.Request.Headers["referer"].FirstOrDefault();
+				var uri = new Uri(referer ?? string.Empty);
+				var query = HttpUtility.ParseQueryString(uri.Query);
+				string? id = query["id"];
+
+				// When we first click the preview button, the request referer contains a query string with the id of the page.
+				// In the other requests, when navigating inside the preview, the Path of the request contains the exact path that
+				// we can directly use to retrieve the obj of the page. So depending on each case, we can either use the page id
+				// or the path to get the obj of the page and then the URL of the page.
+				if (int.TryParse(id, out var pageId))
 				{
 					pageUrl = _siteImprovePublicUrlService.GetPageUrlByPageId(pageId);
 				}
-				// In the script below, we need to access the iframe that contains the preview frame
+				else
+				{
+					pageUrl = _siteImprovePublicUrlService.GetPageUrlByPath(context.Request.Path);
+				}
+
 				var script = $@"
 <script>
     window.onload = function () {{
-		observeIframe();
+		loadSmallbox();
     }};
 
-	function observeIframe() {{
-		let resultFrame = document.getElementById(""resultFrame"");
-		if (resultFrame) handleIframe(resultFrame);
-
-		const observer = new MutationObserver((mutations, obs) => {{
-			resultFrame = document.getElementById(""resultFrame"");
-			if (resultFrame) {{
-				obs.disconnect();
-				handleIframe(resultFrame);
-			}}
-		}});
-		const previewIFrame = document.querySelector(""preview-i-frame"");
-		observer.observe(previewIFrame ? previewIFrame : document.body, {{ childList: true, subtree: true }});
-	}}
-
-	function handleIframe(resultFrame) {{
-		if (resultFrame.contentDocument && resultFrame.contentDocument.readyState === ""complete"" && resultFrame.contentWindow.location.href !== ""about:blank"") {{
-			loadSmallbox(resultFrame);
-		}} else {{
-			resultFrame.addEventListener(""load"", function () {{
-				loadSmallbox(resultFrame);
-			}});
-		}}
-	}}
-
-	function loadSmallbox(resultFrame) {{
-		console.log(""Loading Siteimprove Content Assistant..."");
+	function loadSmallbox() {{
+		console.log('Loading Siteimprove Content Assistant...');
 		const script = document.createElement('script');
 		script.src = '{OverlayUrl}';
 		script.onload = function () {{
-			const si = resultFrame.contentWindow._si;
+			const si = window._si;
 			if (!si) {{
-				console.log(""Content Assistant did not load correctly."");
+				console.log('Content Assistant did not load correctly.');
 				return;
 			}}
 			si.push(['setSession', null, null, 'Umbraco {_umbracoVersion.Version}']);
@@ -91,24 +87,24 @@ public class PreviewScriptInjectionMiddleware
 			si.push(['registerPrepublishCallback', onPrepublish]);
 			si.push(['onHighlight', onHighlight]);
 		}};
-		resultFrame.contentDocument.body.appendChild(script);
+		document.body.appendChild(script);
 	}}
 
 	function onPrepublish() {{
 		return [
-			resultFrame.contentDocument,
+			document,
 			() => console.log('FlatOM pull upload finished.'),
 			'Full page'
 		];
 	}}
 
 	function onHighlight(highlightInfo) {{
-		const si = resultFrame.contentWindow._si;
+		const si = window._si;
 		if (!si) {{
-			console.log(""Content Assistant did not load correctly."");
+			console.log('Content Assistant did not load correctly.');
 			return;
 		}}
-		si.push(['applyDefaultHighlighting', highlightInfo, resultFrame.contentDocument]);
+		si.push(['applyDefaultHighlighting', highlightInfo, document]);
 	}}
 </script>
 ";

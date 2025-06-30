@@ -30,8 +30,20 @@ public class SiteimprovePublicUrlService : ISiteimprovePublicUrlService
 
 	public string GetPageUrlByPageId(int pageId)
 	{
-		using var umbracoContextReference = _ctxFactory.EnsureUmbracoContext();
-		var node = umbracoContextReference.UmbracoContext.Content?.GetById(pageId);
+		using var contextRef = _ctxFactory.EnsureUmbracoContext();
+		var node = contextRef.UmbracoContext.Content?.GetById(pageId);
+		return TurnNodeIntoUrl(node);
+	}
+
+	public string GetPageUrlByPath(string path)
+	{
+		using var contextRef = _ctxFactory.EnsureUmbracoContext();
+		var node = contextRef.UmbracoContext.Content?.GetByRoute(path);
+		return TurnNodeIntoUrl(node);
+	}
+
+	private string TurnNodeIntoUrl(IPublishedContent? node)
+	{
 		var absoluteUrl = node != null ? node.Url(mode: UrlMode.Absolute) : string.Empty;
 		if (string.IsNullOrEmpty(absoluteUrl))
 		{
